@@ -96,7 +96,7 @@ entry_1.grid(row=2, column=0, columnspan=3, padx=10, pady=10)
 
 # Question 2
 label_2_row = 3
-text_2 = "2. Сиз  вилоятда доимий яшайсизми ва рўйхатдан ўтганмисиз?"
+text_2 = "2. Сиз вилоятда доимий яшайсизми ва рўйхатдан ўтганмисиз?"
 options_2 = ["Ҳа", "Йўқ"]
 region = mcq_question(info_frame, label_2_row, options_2, 
                     text=text_2, num_options=2)
