@@ -66,8 +66,10 @@ root.title("Анкета Опроса Населения")
 root.iconbitmap("images/icon.ico")
 root.geometry("1200x900")  #
 
-vertical = tk.Scale(root, from_=0, to=600, sliderlength=80, showvalue=0)
-vertical.pack(side=tk.RIGHT, fill="y")      #
+scroll = tk.Scrollbar(root)
+
+# vertical = tk.Scale(root, from_=0, to=600, sliderlength=80, showvalue=0)
+# vertical.pack(side=tk.RIGHT, fill="y")
 
 head_frame = tk.LabelFrame(root, borderwidth=0, highlightthickness=0, padx=10, pady=10)
 head_frame.pack()
@@ -200,6 +202,40 @@ label_26_row = 16
 text_26 = "26. Нарзулло Обломуродов, Ўзбекистон Экология партияси етакчиси"
 question_26 = mcq_question(table_frame, label_26_row, options_19_26,
                            text=text_26, num_options=4)
+
+# Question 27
+label_27_row = 18
+text_27 = "27.	Президент Шавкат Мирзиёев ўз лавозимида фикрингиз бўйича қандай фаолият кўрсатаётганлигини 7 баллик шкалада баҳоланг. (1 - энг паст баҳо, 7 - энг юқори баҳо )"
+question_27 = mcq_question(table_frame, label_27_row, [1, 2, 3, 4, 5, 6, 7], text=text_27, num_options=7)
+
+# Question 28
+label_28_row = 20
+text_28 = "28.	Ўтган икки ой мобайнида Шавкат Мирзиёевга Ўзбекистон Президенти сифатида муносабатингиз ўзгардими? Ва, агар ўзгарган бўлса, у қайси томонга - яхшиланди ёки ёмонлашди? (битта жавоб)"
+question_28 = mcq_question(table_frame, label_28_row, ["Анча яхшиланди", "Озроқ яхшиланди", "Озроқ ёмонлашди", "Анча ёмонлашди", "Ҳеч нарса ўзгармади", "(БУНИ ЎҚИМАНГ) Жавоб беришга қийналаман"], text=text_28, num_options=6)
+
+# Question 29
+label_29_row = 22
+text_29 = "29.	Шавкат Мирзиёевга ишонасизми ёки ишонмайсизми? (битта жавоб)"
+question_29 = mcq_question(table_frame, label_29_row, ["Тўлиқ ишонаман", "Ишонаман", "Ишонмайман", "Тўлиқ ишонмайман", "(БУНИ ЎҚИМАНГ) Жавоб беришга қийналаман"], text=text_29, num_options=5)
+
+# Question 30
+label_30_row = 24
+
+# Question 31
+label_31_row = 26
+
+# Question 32
+label_32_row = 28
+text_32 = "32.	Сизнингча, Шавкат Мирзиёев мамлакатдаги вазиятни яхши томонга ўзгартира оладими ёки йўқми? (битта жавоб)"
+question_32 = mcq_question(table_frame, label_32_row, ["Аниқ ўзгартира олади", "Ўзгартириши мумкин", "Ўзгартириши қийин", "Аниқ ўзгартира олмайди", "(БУНИ ЎҚИМАНГ) Ҳеч нарса дея олмайман", "(БУНИ ЎҚИМАНГ) Жавоб беришга қийналаман "], text=text_32, num_options=6)
+
+# Question 33
+label_33_row = 30
+
+# Question 34
+label_34_row = 32
+text_34 = "34.	Сизнингча, мамлакатга янги Президент керакми ёки ҳозирги Президент қолгани маъқулми? (буни ўқиманг, битта жавоб)"
+question_34 = mcq_question(table_frame, label_34_row, ["Янги Президент керак", "Амалдаги Президентнинг қолгани яхши", "(БУНИ ЎҚИМАНГ) Менга фарқи йўқ", "(БУНИ ЎҚИМАНГ) Жавоб беришга қийналаман"], text=text_34, num_options=4)
 
 # major frame
 major_frame = tk.LabelFrame(root, borderwidth=0, highlightthickness=0, padx=10, pady=10)
