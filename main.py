@@ -160,43 +160,43 @@ question_19 = mcq_question(table_frame, label_19_row, options_19_26,
                            text=text_19, num_options=4)
 
 # Question 20
-label_20_row = 2
+label_20_row = 4
 text_20 = "20. Танзила Нарбаева, Ўзбекистон Республикаси Олий Мажлиси Сенати раиси"
 question_20 = mcq_question(table_frame, label_20_row, options_19_26,
                            text=text_20, num_options=4)
 
 # Question 21
-label_21_row = 2
+label_21_row = 6
 text_21 = "21. Нурдинжон Исмоилов, Ўзбекистон Республикаси Олий Мажлиси Қонунчилик палатасининг спикери"
 question_21 = mcq_question(table_frame, label_21_row, options_19_26,
                            text=text_21, num_options=4)
 
 # Question 22
-label_22_row = 2
+label_22_row = 8
 text_22 = "22. Актам Хаитов, Ўзбекистон Либерал-демократик партияси етакчиси"
 question_22 = mcq_question(table_frame, label_22_row, options_19_26,
                            text=text_22, num_options=4)
 
 # Question 23
-label_23_row = 2
+label_23_row = 10
 text_23 = "23. Алишер Қодиров, Ўзбекистон «Миллий тикланиш» демократик партияси етакчиси"
 question_23 = mcq_question(table_frame, label_23_row, options_19_26,
                            text=text_23, num_options=4)
 
 # Question 24
-label_24_row = 2
+label_24_row = 12
 text_24 = "24. Баҳром Абдухалимов, Ўзбекистон «Адолат»  демократик партияси етакчиси "
 question_24 = mcq_question(table_frame, label_24_row, options_19_26,
                            text=text_24, num_options=4)
 
 # Question 25
-label_25_row = 2
+label_25_row = 14
 text_25 = "25. Улуғбек Иноятов, Ўзбекистон Халқ демократик партияси етакчиси"
 question_25 = mcq_question(table_frame, label_25_row, options_19_26,
                            text=text_25, num_options=4)
 
 # Question 26
-label_26_row = 2
+label_26_row = 16
 text_26 = "26. Нарзулло Обломуродов, Ўзбекистон Экология партияси етакчиси"
 question_26 = mcq_question(table_frame, label_26_row, options_19_26,
                            text=text_26, num_options=4)
