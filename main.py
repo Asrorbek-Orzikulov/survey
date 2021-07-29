@@ -128,6 +128,28 @@ label_7 = tk.Label(welfare_frame, text="7. Мамлакатдаги умумий
 label_7.grid(row=0, column=0, padx=10, pady=10)
 
 
+# prezident section
+prezident_frame = tk.LabelFrame(root, borderwidth=0, highlightthickness=0, padx=10, pady=10)
+prezident_frame.pack()
+
+table_frame = tk.LabelFrame(prezident_frame, borderwidth=0, highlightthickness=0, padx=10, pady=10)
+table_frame.grid(row=4, column=0, padx=10, pady=10)
+
+# Question 26
+question_26 = tk.IntVar(table_frame)
+label_26 = tk.Label(prezident_frame, text="26. Нарзулло Обломуродов, Ўзбекистон Экология партияси етакчиси ")
+label_26.grid(row=10, column=0, padx=10, pady=10)
+button_26_1 = tk.Radiobutton(prezident_frame, text="1", value=1, variable=question_26)
+button_26_1.grid(row=10, column=1, padx=10, pady=10)
+button_26_2 = tk.Radiobutton(prezident_frame, text="2", value=2, variable=question_26)
+button_26_2.grid(row=10, column=2, padx=10, pady=10)
+button_26_3 = tk.Radiobutton(prezident_frame, text="3", value=3, variable=question_26)
+button_26_3.grid(row=10, column=3, padx=10, pady=10)
+button_26_4 = tk.Radiobutton(prezident_frame, text="4", value=4, variable=question_26)
+button_26_4.grid(row=10, column=4, padx=10, pady=10)
+
+
+
 
 # Question 20
 info_20 = tk.LabelFrame(root, borderwidth=0, highlightthickness=0, padx=10, pady=10)
@@ -225,21 +247,7 @@ button_25_3.grid(row=4, column=3, padx=10, pady=10)
 button_25_4 = tk.Radiobutton(info_25, text="4", value=4, variable=question_25)
 button_25_4.grid(row=4, column=4, padx=10, pady=10)
 
-# Question 26
-info_26 = tk.LabelFrame(root, borderwidth=0, highlightthickness=0, padx=10, pady=10)
-info_26.pack()
-question_26 = tk.IntVar(info_26)
-question_26.set("Президент")
-label_26 = tk.Label(info_26, text="26. Нарзулло Обломуродов, Ўзбекистон Экология партияси етакчиси ")
-label_26.grid(row=4, column=0, padx=10, pady=10)
-button_26_1 = tk.Radiobutton(info_26, text="1", value=1, variable=question_26)
-button_26_1.grid(row=4, column=1, padx=10, pady=10)
-button_26_2 = tk.Radiobutton(info_26, text="2", value=2, variable=question_26)
-button_26_2.grid(row=4, column=2, padx=10, pady=10)
-button_26_3 = tk.Radiobutton(info_26, text="3", value=3, variable=question_26)
-button_26_3.grid(row=4, column=3, padx=10, pady=10)
-button_26_4 = tk.Radiobutton(info_26, text="4", value=4, variable=question_26)
-button_26_4.grid(row=4, column=4, padx=10, pady=10)
+
 
 # Question 27
 info_27 = tk.LabelFrame(root, borderwidth=0, highlightthickness=0, padx=10, pady=10)
