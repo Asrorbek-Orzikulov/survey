@@ -131,7 +131,6 @@ label_7.grid(row=0, column=0, padx=10, pady=10)
 # prezident section
 prezident_frame = tk.LabelFrame(root, borderwidth=0, highlightthickness=0, padx=10, pady=10)
 prezident_frame.pack()
-
 table_frame = tk.LabelFrame(prezident_frame, borderwidth=0, highlightthickness=0, padx=10, pady=10)
 table_frame.grid(row=4, column=0, padx=10, pady=10)
 
@@ -152,19 +151,16 @@ button_26_4.grid(row=10, column=4, padx=10, pady=10)
 
 
 # Question 20
-info_20 = tk.LabelFrame(root, borderwidth=0, highlightthickness=0, padx=10, pady=10)
-info_20.pack()
-question_20 = tk.IntVar(info_20)
-question_20.set("Президент")
-label_20 = tk.Label(info_20, text="20. Танзила Нарбаева, Ўзбекистон Республикаси Олий Мажлиси Сенати раиси.")
+question_20 = tk.IntVar(table_frame)
+label_20 = tk.Label(table_frame, text="20. Танзила Нарбаева, Ўзбекистон Республикаси Олий Мажлиси Сенати раиси.")
 label_20.grid(row=4, column=0, padx=10, pady=10)
-button_20_1 = tk.Radiobutton(info_20, text="1", value=1, variable=question_20)
+button_20_1 = tk.Radiobutton(table_frame, text="1", value=1, variable=question_20)
 button_20_1.grid(row=4, column=1, padx=10, pady=10)
-button_20_2 = tk.Radiobutton(info_20, text="2", value=2, variable=question_20)
+button_20_2 = tk.Radiobutton(table_frame, text="2", value=2, variable=question_20)
 button_20_2.grid(row=4, column=2, padx=10, pady=10)
-button_20_3 = tk.Radiobutton(info_20, text="3", value=3, variable=question_20)
+button_20_3 = tk.Radiobutton(table_frame, text="3", value=3, variable=question_20)
 button_20_3.grid(row=4, column=3, padx=10, pady=10)
-button_20_4 = tk.Radiobutton(info_20, text="4", value=4, variable=question_20)
+button_20_4 = tk.Radiobutton(table_frame, text="4", value=4, variable=question_20)
 button_20_4.grid(row=4, column=4, padx=10, pady=10)
 
 # Question 21
