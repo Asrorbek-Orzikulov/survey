@@ -50,7 +50,9 @@ def save_data():
         root.quit()
 
 
-def add_button(frame_name, label_row, options):
+def mcq_question(frame_name, label_row, options, text, num_options):
+    label = tk.Label(frame_name, text=text)
+    label.grid(row=label_row, column=0, padx=10, pady=10, columnspan=num_options)
     variable = tk.IntVar(frame_name)
     for idx, option in enumerate(options):
         button = tk.Radiobutton(frame_name, text=option, value=idx+1, variable=variable)
@@ -62,7 +64,7 @@ def add_button(frame_name, label_row, options):
 root= tk.Tk()
 root.title("Анкета Опроса Населения")
 root.iconbitmap("images/icon.ico")
-root.geometry("800x600")  #
+root.geometry("1200x900")  #
 
 vertical = tk.Scale(root, from_=0, to=600, sliderlength=80, showvalue=0)
 vertical.pack(side=tk.RIGHT, fill="y")      #
@@ -94,12 +96,10 @@ entry_1.grid(row=2, column=0, columnspan=3, padx=10, pady=10)
 
 # Question 2
 label_2_row = 3
+text_2 = "2. Сиз  вилоятда доимий яшайсизми ва рўйхатдан ўтганмисиз?"
 options_2 = ["Ҳа", "Йўқ"]
-label_2 = tk.Label(info_frame, text="2. Сиз мазкур вилоятда доимий яшайсизми/рўйхатдан ўтганмисиз?")
-label_2.grid(row=label_2_row, column=0, padx=10, pady=10, columnspan=2)
-region = add_button(info_frame, label_2_row, options_2)
-
-
+region = mcq_question(info_frame, label_2_row, options_2, 
+                    text=text_2, num_options=2)
 
 
 # region = tk.IntVar(info_frame)
@@ -155,17 +155,23 @@ options_19_26 = [1, 2, 3, 4]
 
 # Question 19
 label_19_row = 2
-label_19 = tk.Label(table_frame, text="19. Абдулла Арипов, Ўзбекистон Республикаси Бош вазири")
-label_19.grid(row=label_19_row, column=0, padx=10, pady=10, columnspan=4)
-question_19 = add_button(table_frame, label_19_row, options_19_26)
+text_19 = "19. Абдулла Арипов, Ўзбекистон Республикаси Бош вазири"
+question_19 = mcq_question(table_frame, label_19_row, options_19_26,
+                           text=text_19, num_options=4)
 
 
-# Question 20
-label_20_row = 4
-label_20 = tk.Label(table_frame, text="20. Танзила Нарбаева, Ўзбекистон Республикаси Олий Мажлиси Сенати раиси.")
-label_20.grid(row=label_20_row, column=0, padx=10, pady=10, columnspan=4)
-question_20 = add_button(table_frame, label_20_row, options_19_26)
+# # Question 20
+# label_20_row = 4
+# label_20 = tk.Label(table_frame, text="20. Танзила Нарбаева, Ўзбекистон Республикаси Олий Мажлиси Сенати раиси.")
+# label_20.grid(row=label_20_row, column=0, padx=10, pady=10, columnspan=4)
+# question_20 = add_button(table_frame, label_20_row, options_19_26)
 
+# # Question 21
+# label_21_row = 6
+# label_21 = tk.Label(table_frame, text="21. Нурдинжон Исмоилов, Ўзбекистон Республикаси Олий Мажлиси Қонунчилик палатасининг спикери")
+# label_21.grid(row=label_21_row, column=0, padx=10, pady=10, columnspan=4)
+# options_21 = ["Тўлиқ ишонаман", "Ишонаман", "Ишонмайман", "Тўлиқ ишонмайман"]
+# question_21 = add_button(table_frame, label_21_row, options_21)
 
 
 
@@ -324,9 +330,15 @@ question_20 = add_button(table_frame, label_20_row, options_19_26)
 
 
 
-# # major frame
-# major_frame = tk.LabelFrame(root, borderwidth=0, highlightthickness=0, padx=10, pady=10)
-# major_frame.pack()
+# major frame
+major_frame = tk.LabelFrame(root, borderwidth=0, highlightthickness=0, padx=10, pady=10)
+major_frame.pack()
+label_35_row = 1
+text_35 = "35. Айтингчи, Сиз вилоят ҳокимига ишонасизми ёки ишонмайсизми?"
+options_35 = ["Тўлиқ ишонаман", "Қисман ишонаман", "Қисман ишонмайман", 
+              "Умуман ишонмайман", "Жавоб беришга қийналаман"]
+question_25 = mcq_question(major_frame, label_35_row, options_35, text_35, 5)
+
 # question_35 = tk.IntVar(major_frame)
 # label_35 = tk.Label(major_frame, text="35. Айтингчи, Сиз вилоят ҳокими  ___________________га ишонасизми ёки ишонмайсизми?")
 # label_35.grid(row=0, column=0, padx=10, pady=10, columnspan=5)
