@@ -55,8 +55,8 @@ root.title("Анкета Опроса Населения")
 root.iconbitmap("images/icon.ico")
 root.geometry("800x600")  #
 
-vertical = tk.Scale(root, from_=0, to=200)
-vertical.pack()
+vertical = tk.Scale(root, from_=0, to=600, sliderlength=80, showvalue=0)
+vertical.pack(side=tk.RIGHT, fill="y")      #
 
 head_frame = tk.LabelFrame(root, borderwidth=0, highlightthickness=0, padx=10, pady=10)
 head_frame.pack()
@@ -126,6 +126,34 @@ welfare_frame = tk.LabelFrame(root, borderwidth=0, highlightthickness=0, padx=10
 welfare_frame.pack()
 label_7 = tk.Label(welfare_frame, text="7. Мамлакатдаги умумий вазиятдан (ҳолатдан) қониқиш\nдаражангизни 7 баллик шкалада баҳоланг. (1 энг паст баҳо\n– умуман қониқмаслик, 7 энг юқори баҳо – тўлиқ қониқиш).")
 label_7.grid(row=0, column=0, padx=10, pady=10)
+
+
+
+# Question 26
+prezident_frame = tk.LabelFrame(root, borderwidth=0, highlightthickness=0, padx=10, pady=10)
+prezident_frame.pack()
+question_26 = tk.IntVar(prezident_frame)
+question_26.set("Президент")
+label_26 = tk.Label(prezident_frame, text="26. Нарзулло Обломуродов, Ўзбекистон Экология партияси етакчиси ")
+label_26.grid(row=4, column=0, padx=10, pady=10)
+button_26_1 = tk.Radiobutton(prezident_frame, text="1", value=1, variable=question_26)
+button_26_1.grid(row=4, column=1, padx=10, pady=10)
+button_26_2 = tk.Radiobutton(prezident_frame, text="2", value=2, variable=question_26)
+button_26_2.grid(row=4, column=2, padx=10, pady=10)
+button_26_3 = tk.Radiobutton(prezident_frame, text="3", value=3, variable=question_26)
+button_26_3.grid(row=4, column=3, padx=10, pady=10)
+button_26_4 = tk.Radiobutton(prezident_frame, text="4", value=4, variable=question_26)
+button_26_4.grid(row=4, column=4, padx=10, pady=10)
+
+
+
+
+
+
+
+
+
+
 
 
 
