@@ -72,7 +72,7 @@ def checkbox_question(frame_name, label_row, options, text, has_other=False):
     for idx, option in enumerate(options):
         result = tk.IntVar()
         check_box = tk.Checkbutton(frame_name, text=option, variable=result)
-        check_box.grid(row=label_row+offset, column=0, columnspan=1)
+        check_box.grid(row=label_row+offset, column=0, columnspan=7)
         results.append(result)
         offset += 1
     
@@ -84,7 +84,7 @@ def checkbox_question(frame_name, label_row, options, text, has_other=False):
         button = tk.Button(
             frame_name, text="   Бошқа    ",
             command=lambda: entry.configure(state=tk.NORMAL))
-        button.grid(row=label_row+offset, column=0, columnspan=1)
+        button.grid(row=label_row+offset, column=0, columnspan=7)
         results.append(entry)
     return results
 
@@ -264,7 +264,6 @@ text_14 = "14. “Мамлакатимизда олиб борилаётган �
 question_14 = radio_button_question(welfare_frame, label_14_row, ["Тўлиқ қўшиламан", "Қисман қўшиламан", "Қисман қўшилмайман", "Умуман қўшилмайман"],
                             text=text_14, num_options=4)
 
-
 # Question 15
 label_15_row = 19
 text_15 = "15. Давлат томонидан қуйида келтирилган соҳалардан қай бирида амалга оширилаётган ишларни маъқуллайсиз?"
@@ -281,17 +280,6 @@ options_15 = [
     ]
 results_15 = checkbox_question(welfare_frame, label_15_row, options=options_15,
                                text=text_15, has_other=True)
-
-
-
-
-
-
-# clicked = tk.StringVar()
-# dropdown_15 = tk.OptionMenu(welfare_frame, clicked, *options_15)
-# dropdown_15.config(width=100)
-# dropdown_15.set("")
-# dropdown_15.grid(row=19, column=0, columnspan=8)
 
 #
 # prezident section
@@ -472,7 +460,7 @@ question_34 = radio_button_question(major_frame, label_34_row, options_34, text_
 # Question 35
 label_35_row = 3
 text_35 = "35. Сизнингча, вилоят/республика хокими сифатида қандай ишлаяпти? 7 баллик  шкалада баҳоланг"
-options_35 = ["1", "2", "3", "4", "5", "6", "7"]
+options_35 = [1, 2, 3, 4, 5, 6, 7]
 question_35 = radio_button_question(major_frame, label_35_row, options_35, text_35, 7)
 
 # Question 36
@@ -491,7 +479,7 @@ question_37 = radio_button_question(major_frame, label_37_row, options_37, text_
 # Question 38
 label_38_row = 9
 text_38 = "38. Сизнингча, туманингиз ҳокими ўз лавозимида қандай ишламоқда?"
-options_38 = ["1", "2", "3", "4", "5", "6", "7"]
+options_38 = [1, 2, 3, 4, 5, 6, 7]
 question_38 = radio_button_question(major_frame, label_38_row, options_38, text_38, 7)
 
 # Question 39
@@ -515,10 +503,113 @@ question_41 = radio_button_question(major_frame, label_41_row, options_41, text_
 #
 # parliament section
 #
+
+def radio_button_question(frame_name, label_row, options, text, has_other):
+    label = tk.Label(frame_name, text=text)
+    label.grid(row=label_row, column=0, columnspan=4, padx=10, pady=30)
+    variable = tk.IntVar(frame_name)
+    for idx, option in enumerate(options):
+        button = tk.Radiobutton(frame_name, text=option, value=idx+1, variable=variable)
+        button.grid(row=label_row+idx+1, column=2, padx=10, pady=15, sticky = "w") #####################
+    
+    if has_other:
+        offset = len(options) + 1
+        entry = tk.Entry(frame_name, width=100)
+        entry.grid(row=label_row+offset+1, column=0, columnspan=4, padx=10, pady=15)
+        entry.configure(state=tk.DISABLED)
+        button = tk.Button(
+            frame_name, text="   Бошқа    ",
+            command=lambda: entry.configure(state=tk.NORMAL))
+        button.grid(row=label_row+offset, column=2, sticky = "w")
+    
+    if has_other:
+        return (variable, entry)
+    else:
+        return variable
+
+# Question 42
 parliament_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthickness=0, padx=10, pady=10)
 parliament_frame.pack(fill=tk.BOTH, expand=tk.YES)
+label_42_row = 1
+text_42 = "42. Ўзбекистон Республикаси Олий Мажлис Қонунчилик палатасининг амалдаги таркибининг фаолиятини қандай баҳолайсиз?"
+options_42 = [1, 2, 3, 4, 5, 6, 7]
+question_42 = radio_button_question(parliament_frame, label_42_row, options_42, text_42, False)
+
+# Question 43
+label_43_row = 9
+text_43 = "43. Агар Олий Мажлис Қонунчилик палатаси сайловлари кейинги якшанба куни бўлиб ўтса, сиз қайси партияга овоз берган бўлардингиз?"
+options_43 = [
+    "1. Ўзбекистон Либерал-демократик партияси",
+    "2. “Миллий тикланиш” демократик партияси",
+    "3. Ўзбекистон Халқ демократик партияси",
+    "4. “Адолат” социал-демократик партияси",
+    "5. Экология партияси",
+    "6. Ҳеч қайси учун/ҳаммасига қарши",
+    "7. Бюллетенни йиртаман",
+    "8.Сайловга бормиман",
+    "9. Жавоб беришга қийналаман",
+    "10. Рад этиш"
+    ]
+results_43 = radio_button_question(parliament_frame, label_43_row, options_43, text_43, True)
 
 
+
+
+
+
+
+text = text_43
+frame_name = parliament_frame
+label_row = label_43_row
+has_other = False
+
+
+
+
+
+
+
+
+def checkbox_question(frame_name, label_row, options, text, has_other=False):
+    results = []
+    label = tk.Label(frame_name, text=text)
+    label.grid(row=label_row, column=0, columnspan=10)    
+    offset = 1
+    for idx, option in enumerate(options):
+        result = tk.IntVar()
+        check_box = tk.Checkbutton(frame_name, text=option, variable=result)
+        check_box.grid(row=label_row+offset, column=0, columnspan=7)
+        results.append(result)
+        offset += 1
+    
+    # taking care of 'Other'
+    if has_other:
+        entry = tk.Entry(frame_name, width=100)
+        entry.grid(row=label_row+offset+1, column=0, columnspan=10, padx=10, pady=30)
+        entry.configure(state=tk.DISABLED)
+        button = tk.Button(
+            frame_name, text="   Бошқа    ",
+            command=lambda: entry.configure(state=tk.NORMAL))
+        button.grid(row=label_row+offset, column=0, columnspan=7)
+        results.append(entry)
+    return results
+
+def radio_button_question(frame_name, label_row, options, text, num_options):
+    label = tk.Label(frame_name, text=text)
+    label.grid(row=label_row, column=0, padx=10, pady=0, columnspan=num_options)
+    variable = tk.IntVar(frame_name)
+    for idx, option in enumerate(options):
+        button = tk.Radiobutton(frame_name, text=option, value=idx+1, variable=variable)
+        button.grid(row=label_row + 1, column=idx, padx=10, pady=30) #####################
+
+    return variable
+
+
+# clicked = tk.StringVar()
+# dropdown_15 = tk.OptionMenu(welfare_frame, clicked, *options_15)
+# dropdown_15.config(width=100)
+# dropdown_15.set("")
+# dropdown_15.grid(row=19, column=0, columnspan=8)
 
 
 
