@@ -65,6 +65,14 @@ def save_data():
 #     return variable
 
 
+
+
+def is_digit(input_string, action_type):
+    if action_type == '1': #insert
+        if not input_string.isdigit():
+            return False
+    return True
+
 def radio_button_question(frame_name, label_row, options, text, has_other=False):
     label = tk.Label(frame_name, text=text)
     label.grid(row=label_row, column=0, columnspan=3, padx=10, pady=30)
@@ -126,6 +134,7 @@ def inputting_questions(frame_name, label_row, num_options, text, has_difficult)
         results.append(is_difficult)
     return results
 
+
 #
 # start of the GUI
 #
@@ -142,7 +151,7 @@ main_frame.pack(fill=tk.BOTH, expand=True)
 canvas = tk.Canvas(main_frame)
 canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 scrollbar = ttk.Scrollbar(main_frame, orient=tk.VERTICAL, command=canvas.yview)
-scrollbar.pack(side=tk.RIGHT, fill=tk.Y) ##########
+scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 canvas.configure(yscrollcommand=scrollbar.set)
 canvas.bind("<Configure>",
             lambda event: canvas.configure(scrollregion=canvas.bbox("all")))
@@ -235,7 +244,8 @@ question_5 = radio_button_question(info_frame, label_5_row, options_5, text_5)
 # Question 6
 label_6 = tk.Label(info_frame, text="6. Респондентнинг ёшини киритинг.")
 label_6.grid(row=15, column=0, padx=10, pady=10, columnspan=3)
-question_6 = tk.Entry(info_frame)
+question_6 = tk.Entry(info_frame, validate="key")
+question_6.configure(validatecommand=(question_6.register(is_digit),'%P','%d'))
 question_6.grid(row=16, column=0, columnspan=3, padx=10, pady=10)
 
 #
@@ -831,8 +841,20 @@ question_57 = radio_button_question(financials_frame, label_57_row,
 # Question 58
 label_58_row = 38
 text_58 = "58.  Боғланиш учун телефон рақамингизни киритинг (камида 2 та рақамни киритиш)"
-num_options_58 = 2
-results_58 = inputting_questions(financials_frame, label_58_row, num_options_58, text_58, False)
+# num_options_58 = 2
+# results_58 = inputting_questions(financials_frame, label_58_row, num_options_58, text_58, False)
+
+
+label_58 = tk.Label(financials_frame, text=text_58)
+label_58.grid(row=label_58_row, column=0, padx=10, pady=10, columnspan=3)
+question_58 = [tk.Entry(financials_frame, validate="key"),
+               tk.Entry(financials_frame, validate="key")]
+for idx, entry in enumerate(question_58):
+    entry.configure(validatecommand=(entry.register(is_digit),'%P','%d'))
+    entry.grid(row=label_58_row+idx+1, column=0, columnspan=3, padx=10, pady=10)
+
+
+
 
 util.main()
 controller.main()
