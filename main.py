@@ -53,29 +53,22 @@ def save_data():
 
 def mcq_question(frame_name, label_row, options, text, num_options):
     label = tk.Label(frame_name, text=text)
-    label.grid(row=label_row, column=0, padx=10, pady=10, columnspan=num_options)
+    label.grid(row=label_row, column=0, padx=10, pady=0, columnspan=num_options)
     variable = tk.IntVar(frame_name)
     for idx, option in enumerate(options):
         button = tk.Radiobutton(frame_name, text=option, value=idx+1, variable=variable)
-        button.grid(row=label_row + 1, column=idx, padx=10, pady=10)
+        button.grid(row=label_row + 1, column=idx, padx=10, pady=30)
 
     return variable
+
+
+
 
 
 root= tk.Tk()
 root.title("Анкета Опроса Населения")
 root.iconbitmap("images/icon.ico")
-<<<<<<< Updated upstream
-root.geometry("1200x900")  #
-
-scroll = tk.Scrollbar(root)
-
-# vertical = tk.Scale(root, from_=0, to=600, sliderlength=80, showvalue=0)
-# vertical.pack(side=tk.RIGHT, fill="y")
-
-head_frame = tk.LabelFrame(root, borderwidth=0, highlightthickness=0, padx=10, pady=10)
-=======
-root.geometry("1200x700") ###########
+root.geometry("1200x700")  
 
 # adding a scrollbar
 main_frame = tk.Frame(root)
@@ -95,21 +88,25 @@ inside_frame = tk.Frame(canvas)
 canvas.create_window((0, 0), window=inside_frame, anchor="nw")
 
 # Start of questionnaire
-head_frame = tk.LabelFrame(inside_frame, borderwidth=0, highlightthickness=0, padx=10, pady=10)
->>>>>>> Stashed changes
-head_frame.pack()
+head_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthickness=0, padx=10, pady=10)
+head_frame.pack(fill=tk.BOTH, expand=tk.YES)
+head_frame.grid_columnconfigure(0, weight=1)
+head_frame.grid_rowconfigure(0, weight=1)
 
 label_head = tk.Label(head_frame, borderwidth=0, highlightthickness=0,
                       text="Ўзбекистон Республикасида  ижтимоий-сиёсий вазиятни ўрганиш (2021 июль)")
-label_head.grid(row=0, column=0)
+label_head.grid(row=0, column=0, sticky=tk.NSEW)
 label_head.config(font=("helvetica", 14), fg="dark blue")
 
 # bg_image = ImageTk.PhotoImage(Image.open("survey_background.png"))
 # background_label = tk.Label(root, image=bg_image)
 # background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
+#
+# info section
+#
 
-info_frame = tk.LabelFrame(inside_frame, borderwidth=0, highlightthickness=0, padx=10, pady=10)
+info_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthickness=0, padx=10, pady=10)
 info_frame.pack() # grid(row=1, column=0, columnspan=10)
 label_info = tk.Label(info_frame, text="Сўров иштирокчиларининг ижтимоий-демографик хусусиятлари")
 label_info.grid(row=0, column=0, columnspan=4, padx=10, pady=10)
@@ -118,65 +115,109 @@ label_info.config(font=("helvetica", 12), fg="green")
 # Question 1
 label_1 = tk.Label(info_frame, text="1. Исмингиз нима?")  # , justify=tk.LEFT, anchor="w"
 label_1.grid(row=1, column=0, padx=10, pady=10, columnspan=3)  # , sticky = tk.W
-entry_1 = tk.Entry(info_frame, width=50)
-entry_1.grid(row=2, column=0, columnspan=3, padx=10, pady=10)
+question_1 = tk.Entry(info_frame, width=50)
+question_1.grid(row=2, column=0, columnspan=3, padx=10, pady=30)
 
 # Question 2
 label_2_row = 3
 text_2 = "2. Сиз вилоятда доимий яшайсизми ва рўйхатдан ўтганмисиз?"
 options_2 = ["Ҳа", "Йўқ"]
-region = mcq_question(info_frame, label_2_row, options_2, 
-                    text=text_2, num_options=2)
+question_2 = mcq_question(info_frame, label_2_row, options_2, 
+                    text=text_2, num_options=3)
+
+# Question 3
+label_3 = tk.Label(info_frame, text="3. Сиз вилоятнинг қайси тумани(шаҳри)да яшайсиз?")
+label_3.grid(row=5, column=0, padx=10, pady=10, columnspan=3)
+question_3 = tk.Entry(info_frame, width=50)
+question_3.grid(row=6, column=0, columnspan=3, padx=10, pady=30)
 
 
-# region = tk.IntVar(info_frame)
-# button_2_1 = tk.Radiobutton(info_frame, text="Ҳа", value=1, variable=region)
-# button_2_1.grid(row=2, column=1, padx=10, pady=10)
-# button_2_2 = tk.Radiobutton(info_frame, text="Йўқ", value=2, variable=region)
-# button_2_2.grid(row=2, column=2, padx=10, pady=10)
+# Question 4
+label_4_row = 7
+text_4 = "4. Шаҳар ёки қишлоқ тугмасини танланг."
+options_4 = ["Шаҳар", "Қишлоқ", "Бош Тортиш"]
+question_4 = mcq_question(info_frame, label_4_row, options_4, text_4, 3)
 
-# label_3 = tk.Label(info_frame, text="3. Сиз вилоятнинг қайси тумани(шаҳри)да яшайсиз?")
-# label_3.grid(row=3, column=0, padx=10, pady=10)
-# entry_3 = tk.Entry(info_frame, width=50)
-# entry_3.grid(row=3, column=1, columnspan=3, padx=10, pady=10)
+# Question 5
+label_5_row = 9
+text_5 = "5. Респондентнинг жинсини киритинг."
+options_5 = ["Эркак", "Аёл"]
+question_5 = mcq_question(info_frame, label_5_row, options_5, text_5, 3)
 
-# place = tk.IntVar(info_frame)
-# place.set("Шаҳар")
-# label_4 = tk.Label(info_frame, text="4. Шаҳар ёки қишлоқ тугмасини танланг.")
-# label_4.grid(row=4, column=0, padx=10, pady=10)
-# button_4_1 = tk.Radiobutton(info_frame, text="Шаҳар", value=1, variable=place)
-# button_4_1.grid(row=4, column=1, padx=10, pady=10)
-# button_4_2 = tk.Radiobutton(info_frame, text="Қишлоқ", value=2, variable=place)
-# button_4_2.grid(row=4, column=2, padx=10, pady=10)
-# button_4_3 = tk.Radiobutton(info_frame, text="Бош Тортиш", value=3, variable=place)
-# button_4_3.grid(row=4, column=3, padx=10, pady=10)
+# Question 6
+label_6 = tk.Label(info_frame, text="6. Респондентнинг ёшини киритинг.")
+label_6.grid(row=11, column=0, padx=10, pady=10)
+question_6 = tk.Entry(info_frame)
+question_6.grid(row=11, column=1, columnspan=3, padx=10, pady=10)
 
-# gender = tk.IntVar(info_frame)
-# gender.set("Эркак")
-# label_5 = tk.Label(info_frame, text="5. Респондентнинг жинсини киритинг.")
-# label_5.grid(row=5, column=0, padx=10, pady=10)
-# button_5_1 = tk.Radiobutton(info_frame, text="Эркак", value=1, variable=gender)
-# button_5_1.grid(row=5, column=1, padx=10, pady=10)
-# button_5_2 = tk.Radiobutton(info_frame, text="Аёл", value=2, variable=gender)
-# button_5_2.grid(row=5, column=2, padx=10, pady=10)
+#
+# welfare section
+#
 
-# label_6 = tk.Label(info_frame, text="6. Респондентнинг ёшини киритинг.")
-# label_6.grid(row=6, column=0, padx=10, pady=10)
-# entry_6 = tk.Entry(info_frame)
-# entry_6.grid(row=6, column=1, columnspan=3, padx=10, pady=10)
+welfare_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthickness=0, padx=10, pady=10)
+welfare_frame.pack()
+
+# Question 7
+label_7_row = 3
+text_7 = "7. Сизнингча, мамлакатдаги умумий вазият яхшиланмоқдами, ёмонлашмоқдами ёки деярли ўзгармаяптими? (битта жавоб)"
+question_7 = mcq_question(welfare_frame, label_7_row, ["Яхшиланмоқда", "Ёмонлашмоқда", "Деярли ўзгармаяпти", "Жавоб беришга қийналаман"],
+                            text=text_7, num_options=4)
+
+# Question 8
+label_8_row = 5
+text_8 = "8. Вилоятингиздаги умумий вазиятдан (ҳолатдан) қониқиш даражангизни 7 баллик шкалада баҳоланг. (1 энг паст баҳо – умуман қониқмаслик, 7 энг юқори баҳо – тўлиқ қониқиш)"
+question_8 = mcq_question(welfare_frame, label_8_row, [1, 2, 3, 4, 5, 6, 7],
+                            text=text_8, num_options=7)
+
+# Question 9
+label_9_row = 7
+text_9 = "9. Сизнингча, вилоятдаги умумий вазият яхшиланмоқда, ёмонлашмоқда ёки деярли ўзгармаяптими? (битта жавоб)"
+question_9 = mcq_question(welfare_frame, label_9_row, ["Яхшиланмоқда", "Ёмонлашмоқда", "Деярли ўзгармаяпти", "Жавоб беришга қийналаман"],
+                            text=text_9, num_options=4)
+
+# Question 10
+label_10_row = 9
+text_10 = "10. Маҳаллангиздаги умумий вазиятдан (ҳолатдан) қониқиш даражангизни 7 баллик шкалада баҳоланг. (1 энг паст баҳо – умуман қониқмаслик, 7 энг юқори баҳо – тўлиқ қониқиш)"
+question_10 = mcq_question(welfare_frame, label_10_row, [1, 2, 3, 4, 5, 6, 7],
+                            text=text_10, num_options=7)
+
+# Question 11
+label_11_row = 11
+text_11 = "11. Сизнингча, сиз яшаётган маҳаллада умумий вазият яхшиланмоқдами, ёмонлашмоқдами ёки ҳеч нарса ўзгармаяптими? (битта жавоб)"
+question_11 = mcq_question(welfare_frame, label_11_row, ["Яхшиланмоқда", "Ёмонлашмоқда", "Деярли ўзгармаяпти", "Жавоб беришга қийналаман"],
+                            text=text_11, num_options=4)
+
+# Question 12
+label_12_row = 13
+text_12 = "12. Сизнингча, атрофингиздаги одамлар ҳозир қандай кайфиятда: кўтаринки, хотиржам ёки тушкун (хавотирли)? (битта жавоб)"
+question_12 = mcq_question(welfare_frame, label_12_row, ["Кўтаринки", "Хотиржам", "Тушкун, хавотирли", "жавоб беришга қийналаман"],
+                            text=text_12, num_options=4)
+
+# Question 13
+label_13_row = 15
+text_13 = "13. “Мен Ўзбекистон иқтисодиёти ривожланишига ишонаман” Мазкур фикрга... (Ўқиб беринг)"
+question_13 = mcq_question(welfare_frame, label_13_row, ["Тўлиқ қўшиламан", "Қисман қўшиламан", "Қисман қўшилмайман", "Умуман қўшилмайман"],
+                            text=text_13, num_options=4)
+
+# Question 14
+label_14_row = 17
+text_14 = "14. “Мамлакатимизда олиб борилаётган ислоҳотлар тўғри йўлда кетмоқда”  Мазкур фикрга (Ўқиб беринг. Битта жавоб танланади)"
+question_14 = mcq_question(welfare_frame, label_14_row, ["Тўлиқ қўшиламан", "Қисман қўшиламан", "Қисман қўшилмайман", "Умуман қўшилмайман"],
+                            text=text_14, num_options=4)
 
 
-# welfare_frame = tk.LabelFrame(root, borderwidth=0, highlightthickness=0, padx=10, pady=10)
-# welfare_frame.pack()
-# label_7 = tk.Label(welfare_frame, text="7. Мамлакатдаги умумий вазиятдан (ҳолатдан) қониқиш\nдаражангизни 7 баллик шкалада баҳоланг. (1 энг паст баҳо\n– умуман қониқмаслик, 7 энг юқори баҳо – тўлиқ қониқиш).")
-# label_7.grid(row=0, column=0, padx=10, pady=10)
+# question_15 = tk.IntVar()
+text_15 = "15. Давлат томонидан қуйида келтирилган соҳалардан қай бирида амалга оширилаётган ишларни маъқуллайсиз?"
 
 
+#
 # prezident section
-prezident_frame = tk.LabelFrame(inside_frame, borderwidth=0, highlightthickness=0, padx=10, pady=10)
+#
+
+prezident_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthickness=0, padx=10, pady=10)
 prezident_frame.pack()
-table_frame = tk.LabelFrame(prezident_frame, borderwidth=0, highlightthickness=0, padx=10, pady=10)
-table_frame.grid(row=4, column=0, padx=10, pady=10)
+table_frame = tk.LabelFrame(prezident_frame, borderwidth=5, highlightthickness=0, padx=10, pady=10)
+table_frame.grid(row=4, column=0, padx=10, pady=10, columnspan=8)
 options_19_26 = [1, 2, 3, 4]
 
 
@@ -229,19 +270,23 @@ question_26 = mcq_question(table_frame, label_26_row, options_19_26,
                             text=text_26, num_options=4)
 
 # Question 27
-label_27_row = 18
-text_27 = "27.	Президент Шавкат Мирзиёев ўз лавозимида фикрингиз бўйича қандай фаолият кўрсатаётганлигини 7 баллик шкалада баҳоланг. (1 - энг паст баҳо, 7 - энг юқори баҳо )"
-question_27 = mcq_question(table_frame, label_27_row, [1, 2, 3, 4, 5, 6, 7], text=text_27, num_options=7)
+label_27_row = 5
+text_27 = "27. Президент Шавкат Мирзиёев ўз лавозимида фикрингиз бўйича қандай фаолият кўрсатаётганлигини 7 баллик шкалада баҳоланг. (1 - энг паст баҳо, 7 - энг юқори баҳо )"
+question_27 = mcq_question(prezident_frame, label_27_row, [1, 2, 3, 4, 5, 6, 7], text=text_27, num_options=7)
 
 # Question 28
-label_28_row = 20
-text_28 = "28.	Ўтган икки ой мобайнида Шавкат Мирзиёевга Ўзбекистон Президенти сифатида муносабатингиз ўзгардими? Ва, агар ўзгарган бўлса, у қайси томонга - яхшиланди ёки ёмонлашди? (битта жавоб)"
-question_28 = mcq_question(table_frame, label_28_row, ["Анча яхшиланди", "Озроқ яхшиланди", "Озроқ ёмонлашди", "Анча ёмонлашди", "Ҳеч нарса ўзгармади", "(БУНИ ЎҚИМАНГ) Жавоб беришга қийналаман"], text=text_28, num_options=6)
+label_28_row = 7
+text_28 = "28. Ўтган икки ой мобайнида Шавкат Мирзиёевга Ўзбекистон Президенти сифатида муносабатингиз ўзгардими? Ва, агар ўзгарган бўлса, у қайси томонга - яхшиланди ёки ёмонлашди? (битта жавоб)"
+options_28 = ["Анча яхшиланди", "Озроқ яхшиланди", "Озроқ ёмонлашди", "Анча ёмонлашди", "Ҳеч нарса ўзгармади", "Жавоб беришга қийналаман"]
+question_28 = mcq_question(prezident_frame, label_28_row, options=options_28,
+                           text=text_28, num_options=6)
 
 # Question 29
-label_29_row = 22
-text_29 = "29.	Шавкат Мирзиёевга ишонасизми ёки ишонмайсизми? (битта жавоб)"
-question_29 = mcq_question(table_frame, label_29_row, ["Тўлиқ ишонаман", "Ишонаман", "Ишонмайман", "Тўлиқ ишонмайман", "(БУНИ ЎҚИМАНГ) Жавоб беришга қийналаман"], text=text_29, num_options=5)
+label_29_row = 9
+options_29 = ["Тўлиқ ишонаман", "Ишонаман", "Ишонмайман", "Тўлиқ ишонмайман", "Жавоб беришга қийналаман"]
+text_29 = "29.	Шавкат Мирзиёевга ишонасизми ёки ишонмайсизми?"
+question_29 = mcq_question(prezident_frame, label_29_row,
+                           options=options_29, text=text_29, num_options=5)
 
 # Question 30
 label_30_row = 24
@@ -250,20 +295,25 @@ label_30_row = 24
 label_31_row = 26
 
 # Question 32
-label_32_row = 28
-text_32 = "32.	Сизнингча, Шавкат Мирзиёев мамлакатдаги вазиятни яхши томонга ўзгартира оладими ёки йўқми? (битта жавоб)"
-question_32 = mcq_question(table_frame, label_32_row, ["Аниқ ўзгартира олади", "Ўзгартириши мумкин", "Ўзгартириши қийин", "Аниқ ўзгартира олмайди", "(БУНИ ЎҚИМАНГ) Ҳеч нарса дея олмайман", "(БУНИ ЎҚИМАНГ) Жавоб беришга қийналаман "], text=text_32, num_options=6)
+label_32_row = 11
+text_32 = "32. Сизнингча, Шавкат Мирзиёев мамлакатдаги вазиятни яхши томонга ўзгартира оладими ёки йўқми?"
+options_32 = ["Аниқ ўзгартира олади", "Ўзгартириши мумкин", "Ўзгартириши қийин", "Аниқ ўзгартира олмайди", "Ҳеч нарса дея олмайман", "Жавоб беришга қийналаман "]
+question_32 = mcq_question(prezident_frame, label_32_row, 
+                           options=options_32, text=text_32, num_options=6)
 
 # Question 33
 label_33_row = 30
 
 # Question 34
-label_34_row = 32
-text_34 = "34.	Сизнингча, мамлакатга янги Президент керакми ёки ҳозирги Президент қолгани маъқулми? (буни ўқиманг, битта жавоб)"
-question_34 = mcq_question(table_frame, label_34_row, ["Янги Президент керак", "Амалдаги Президентнинг қолгани яхши", "(БУНИ ЎҚИМАНГ) Менга фарқи йўқ", "(БУНИ ЎҚИМАНГ) Жавоб беришга қийналаман"], text=text_34, num_options=4)
+label_34_row = 17
+text_34 = "34. Сизнингча, мамлакатга янги Президент керакми ёки ҳозирги Президент қолгани маъқулми?"
+question_34 = mcq_question(prezident_frame, label_34_row, ["Янги Президент керак", "Амалдаги Президентнинг қолгани яхши", "Менга фарқи йўқ", "Жавоб беришга қийналаман"], text=text_34, num_options=4)
 
-# major frame
-major_frame = tk.LabelFrame(inside_frame, borderwidth=0, highlightthickness=0, padx=10, pady=10)
+#
+# major section
+#
+
+major_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthickness=0, padx=10, pady=10)
 major_frame.pack()
 label_35_row = 1
 text_35 = "35. Айтингчи, Сиз вилоят ҳокимига ишонасизми ёки ишонмайсизми?"
@@ -273,7 +323,7 @@ question_35 = mcq_question(major_frame, label_35_row, options_35, text_35, 5)
 
 label_36_row = 3
 text_36 = "36. Сизнингча, вилоят/республика хокими сифатида қандай ишлаяпти? 7 баллик  шкалада баҳоланг"
-options_36 = ["1. Жуда ёмон", "2", "3", "4", "5", "6", "7. Жуда яхши"]
+options_36 = ["1", "2", "3", "4", "5", "6", "7"]
 question_36 = mcq_question(major_frame, label_36_row, options_36, text_36, 7)
 
 label_37_row =5 
@@ -288,7 +338,7 @@ question_38 = mcq_question(major_frame, label_38_row, options_38, text_38, 5)
 
 label_39_row = 9
 text_39 = "39. Сизнингча, туманингиз ҳокими ўз лавозимида қандай ишламоқда?"
-options_39 = ["1. Жуда ёмон", "2", "3", "4", "5", "6", "7. Жуда яхши"]
+options_39 = ["1", "2", "3", "4", "5", "6", "7"]
 question_39 = mcq_question(major_frame, label_39_row, options_39, text_39, 7)
 
 label_40_row = 11
@@ -326,7 +376,7 @@ question_42 = mcq_question(major_frame, label_42_row, options_42, text_42, 4)
 
 
 # button at the bottom
-bottom_frame = tk.LabelFrame(inside_frame, borderwidth=0, highlightthickness=0, padx=10, pady=10)
+bottom_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthickness=0, padx=10, pady=10)
 bottom_frame.pack(side=tk.BOTTOM)
 button_exit = tk.Button(bottom_frame, text="Exit Program", command=root.quit)
 button_exit.grid(row=0, column=0, padx=80, pady=10)
