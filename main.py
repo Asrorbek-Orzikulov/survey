@@ -511,7 +511,7 @@ def radio_button_question(frame_name, label_row, options, text, has_other):
     for idx, option in enumerate(options):
         button = tk.Radiobutton(frame_name, text=option, value=idx+1, variable=variable)
         button.grid(row=label_row+idx+1, column=2, padx=10, pady=15, sticky = "w") #####################
-    
+
     if has_other:
         offset = len(options) + 1
         entry = tk.Entry(frame_name, width=100)
@@ -521,11 +521,9 @@ def radio_button_question(frame_name, label_row, options, text, has_other):
             frame_name, text="   Бошқа    ",
             command=lambda: entry.configure(state=tk.NORMAL))
         button.grid(row=label_row+offset, column=2, sticky = "w")
-    
-    if has_other:
-        return (variable, entry)
-    else:
-        return variable
+        return entry
+
+    return variable
 
 # Question 42
 parliament_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthickness=0, padx=10, pady=10)
