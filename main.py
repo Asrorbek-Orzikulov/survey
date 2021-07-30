@@ -13,8 +13,8 @@ from tkinter import ttk
 
 
 def save_data():
-    column_names = ["Name", "Lives in Region", "District/City Name", 
-                    "District or City", "Gender", "Age"]  
+    column_names = ["Name", "Lives in Region", "District/City Name",
+                    "District or City", "Gender", "Age"]
     input_widgets = [entry_1, region, entry_3, place, gender, entry_6]
     input_info = [widget.get() for widget in input_widgets]
 
@@ -24,12 +24,12 @@ def save_data():
 
     try:
         os.chdir("Database")
-        count = 0 
+        count = 0
         file_exists = True
         while file_exists:
             if os.path.isfile(f"{util.filename(count)}.xlsx"):
                 count += 1
-            else: 
+            else:
                 name = util.filename(count)
                 file_exists = False
 
@@ -38,15 +38,15 @@ def save_data():
             worksheet.write_row(0, 0, column_names)
             worksheet.write_row(1, 0, input_info)
 
-        util.log('success', f"An Excel file has been created successfully as {os.getcwd()}/{name}.xlsx")       
+        util.log('success', f"An Excel file has been created successfully as {os.getcwd()}/{name}.xlsx")
         os.chdir("..")
-        
+
         # ## here will be code for unifying files
         # os.chdir("/mydir")
         # for file in glob.glob("*.txt"):
         #     print(file)
-        
-        
+
+
     except Exception as error:
         util.log('error', "Could not create an Excel file")
         util.log('error', str(error))
@@ -89,7 +89,7 @@ def radio_button_question(frame_name, label_row, options, text, has_other=False)
 def checkbox_question(frame_name, label_row, options, text, has_other=False):
     results = []
     label = tk.Label(frame_name, text=text)
-    label.grid(row=label_row, column=0, columnspan=3, padx=10, pady=30)    
+    label.grid(row=label_row, column=0, columnspan=3, padx=10, pady=30)
     offset = 1
     for idx, option in enumerate(options):
         result = tk.IntVar()
@@ -97,7 +97,7 @@ def checkbox_question(frame_name, label_row, options, text, has_other=False):
         check_box.grid(row=label_row+offset, column=1, padx=10, pady=5, sticky = "w")
         results.append(result)
         offset += 1
-    
+
     # taking care of 'Other'
     if has_other:
         entry = tk.Entry(frame_name, width=100)
@@ -110,44 +110,47 @@ def checkbox_question(frame_name, label_row, options, text, has_other=False):
         results.append(entry)
     return results
 
-def inputting_questions(frame_name, label_row, num_options, text):
+def inputting_questions(frame_name, label_row, num_options, text, has_difficult):
     results = []
     label = tk.Label(frame_name, text=text)
     label.grid(row=label_row, column=0, columnspan=3, padx=10, pady=30)
     for idx in range(1, num_options+1):
         entry = tk.Entry(frame_name, width=100)
-        entry.grid(row=label_row+idx, column=0, columnspan=3, padx=10, pady=30)
+        entry.grid(row=label_row+idx, column=0, columnspan=3, padx=10, pady=10)
         results.append(entry)
-    
-    is_difficult = tk.IntVar()
-    check_box = tk.Checkbutton(frame_name, text="Жавоб беришга қийналаман", variable=is_difficult)
-    check_box.grid(row=label_row+num_options+1, column=1, padx=10, pady=5, sticky = "w")
-    results.append(is_difficult)
+
+    if has_difficult:
+        is_difficult = tk.IntVar()
+        check_box = tk.Checkbutton(frame_name, text="Жавоб беришга қийналаман", variable=is_difficult)
+        check_box.grid(row=label_row+num_options+1, column=1, padx=10, pady=5, sticky = "w")
+        results.append(is_difficult)
     return results
 
-
-
+#
 # start of the GUI
-root= tk.Tk()
+#
+
+root = tk.Tk()
 root.title("Анкета Опроса Населения")
 root.iconbitmap("images/icon.ico")
-root.geometry("1200x700")  
+# root.geometry("1200x700")
+root.geometry("{0}x{1}+0+0".format(root.winfo_screenwidth(), root.winfo_screenheight()))
 
 # adding a scrollbar
 main_frame = tk.Frame(root)
-main_frame.pack(fill=tk.BOTH, expand=tk.YES)
+main_frame.pack(fill=tk.BOTH, expand=True)
 canvas = tk.Canvas(main_frame)
-canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=tk.YES)
+canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 scrollbar = ttk.Scrollbar(main_frame, orient=tk.VERTICAL, command=canvas.yview)
-scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+scrollbar.pack(side=tk.RIGHT, fill=tk.Y) ##########
 canvas.configure(yscrollcommand=scrollbar.set)
-canvas.bind("<Configure>", 
+canvas.bind("<Configure>",
             lambda event: canvas.configure(scrollregion=canvas.bbox("all")))
 
 canvas.bind_all("<MouseWheel>",
                 lambda event: canvas.yview_scroll(-1 * int((event.delta / 120)), "units"))
 
-inside_frame = tk.Frame(canvas)
+inside_frame = tk.Frame(canvas, borderwidth=10)
 canvas.create_window((0, 0), window=inside_frame, anchor="nw")
 
 # button at the bottom
@@ -157,7 +160,7 @@ button_exit = tk.Button(bottom_frame, text="Exit Program", command=root.quit)
 button_exit.pack(side=tk.LEFT, pady=5, padx=5)
 # button_exit.grid(row=0, column=0, padx=10, pady=10)
 button_save = tk.Button(bottom_frame, text="Save Responses", command=save_data)  ###############
-button_save.pack(side=tk.RIGHT,   pady=5, padx=20)
+button_save.pack(side=tk.RIGHT, pady=5, padx=20)
 # button_save.grid(row=0, column=1, padx=10, pady=10)
 button_verify = tk.Button(bottom_frame, text="Verify Responses", command=save_data)  ###############
 button_verify.pack(side=tk.RIGHT, pady=5, padx=20)
@@ -182,29 +185,39 @@ label_head.config(font=("helvetica", 14), fg="dark blue")
 #
 
 info_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthickness=0, padx=10, pady=10)
-info_frame.pack()
+info_frame.pack(fill=tk.BOTH, expand=True)
 label_info = tk.Label(info_frame, text="Сўров иштирокчиларининг ижтимоий-демографик хусусиятлари")
 label_info.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
 label_info.config(font=("helvetica", 12), fg="green")
 
 # Question 1
-label_1 = tk.Label(info_frame, text="1. Исмингиз нима?")  # , justify=tk.LEFT, anchor="w"
-label_1.grid(row=1, column=0, padx=10, pady=10, columnspan=3)  # , sticky = tk.W
-question_1 = tk.Entry(info_frame, width=50)
-question_1.grid(row=2, column=0, columnspan=3, padx=10, pady=30)
+label_1_row = 1
+text_1 = "1. Исмингиз нима?"
+num_options_1 = 1
+question_1 = inputting_questions(info_frame, label_1_row, num_options_1, text_1, False)
+# label_1 = tk.Label(info_frame, text=)  # , justify=tk.LEFT, anchor="w"
+# label_1.grid(row=1, column=0, padx=10, pady=10, columnspan=3)  # , sticky = tk.W
+# question_1 = tk.Entry(info_frame, width=50)
+# question_1.grid(row=2, column=0, columnspan=3, padx=10, pady=30)
 
 # Question 2
 label_2_row = 3
 text_2 = "2. Сиз вилоятда доимий яшайсизми ва рўйхатдан ўтганмисиз?"
 options_2 = ["Ҳа", "Йўқ"]
-question_2 = radio_button_question(info_frame, label_2_row, 
+question_2 = radio_button_question(info_frame, label_2_row,
                                    options_2, text=text_2)
 
 # Question 3
-label_3 = tk.Label(info_frame, text="3. Сиз вилоятнинг қайси тумани(шаҳри)да яшайсиз?")
-label_3.grid(row=6, column=0, padx=10, pady=10, columnspan=3)
-question_3 = tk.Entry(info_frame, width=50)
-question_3.grid(row=7, column=0, columnspan=3, padx=10, pady=30)
+label_3_row = 6
+text_3 = "3. Сиз вилоятнинг қайси тумани(шаҳри)да яшайсиз?"
+num_options_3 = 1
+question_3 = inputting_questions(info_frame, label_3_row, num_options_3, text_3, False)
+
+
+# label_3 = tk.Label(info_frame, text=)
+# label_3.grid(row=6, column=0, padx=10, pady=10, columnspan=3)
+# question_3 = tk.Entry(info_frame, width=50)
+# question_3.grid(row=7, column=0, columnspan=3, padx=10, pady=30)
 
 
 # Question 4
@@ -230,7 +243,7 @@ question_6.grid(row=16, column=0, columnspan=3, padx=10, pady=10)
 #
 
 welfare_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthickness=0, padx=10, pady=10)
-welfare_frame.pack()
+welfare_frame.pack(fill=tk.BOTH, expand=True)
 label_welfare = tk.Label(welfare_frame, text="Ижтимоий фаровонлик диагностикаси. Кайфиятлар")
 label_welfare.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
 label_welfare.config(font=("helvetica", 12), fg="green")
@@ -241,7 +254,6 @@ tex_missed = "Мамлакатдаги умумий вазиятдан (ҳола
 options_missed = [1, 2, 3, 4, 5, 6, 7]
 question_missed = radio_button_question(welfare_frame, label_missed_row,
                                         options_missed, tex_missed)
-
 
 # Question 7
 label_7_row = 9
@@ -294,8 +306,8 @@ question_14 = radio_button_question(welfare_frame, label_14_row, ["Тўлиқ қ
 label_15_row = 55
 text_15 = "15. Давлат томонидан қуйида келтирилган соҳалардан қай бирида амалга оширилаётган ишларни маъқуллайсиз?"
 options_15 = [
-    "Таълим тизими", 
-    "Соғлиқни сақлаш тизими", 
+    "Таълим тизими",
+    "Соғлиқни сақлаш тизими",
     "Ҳудудлардаги инфратузилмани (газ, свет, йўл ва ҳ.к.) яхшилаш",
     "Коррупция қарши кураш",
     "Аҳолини уй-жой билан таъминлаш",
@@ -312,27 +324,25 @@ results_15 = checkbox_question(welfare_frame, label_15_row, options=options_15,
 #
 
 prezident_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthickness=0, padx=10, pady=10)
-prezident_frame.pack()
+prezident_frame.pack(fill=tk.BOTH, expand=True)
 label_prezident = tk.Label(prezident_frame, text="Президент")
 label_prezident.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
 label_prezident.config(font=("helvetica", 12), fg="green")
-
 
 # Question 16
 label_16_row = 1
 text_16 = "16. Сизнинг фикрингизча, ҳукумат фуқаролар билан очиқ мулоқотда бўлмоқда ва уларнинг муаммоларига ўз вақтида жавоб қайтармоқда?"
 options_16 = ["Тўлиқ қўшиламан", "Қисман қўшиламан", "Қисман қўшилмайман", "Умуман қўшилмайман"]
-question_16 = radio_button_question(prezident_frame, label_16_row, 
+question_16 = radio_button_question(prezident_frame, label_16_row,
                                     options_16, text_16)
 
 # Question 17
 label_17_row = 6
 text_17 = "17. Илтимос, сиз фикрига қулоқ соладиган, ҳурмат қиладиган сиёсатчилар, жамоат арбобларининг исмларини айтинг"
 num_options_17 = 5
-results_17 = inputting_questions(prezident_frame, label_17_row, num_options_17, text_17)
+results_17 = inputting_questions(prezident_frame, label_17_row, num_options_17, text_17, True)
 
-
-
+# table for Questions 18-25
 table_frame = tk.LabelFrame(prezident_frame, borderwidth=5, highlightthickness=0, padx=10, pady=10)
 table_frame.grid(row=13, column=0, padx=10, pady=10, columnspan=8)
 options_18_25 = [1, 2, 3, 4]
@@ -396,7 +406,7 @@ question_26 = radio_button_question(prezident_frame, label_26_row, options_26,
 label_27_row = 22
 text_27 = "27. Ўтган икки ой мобайнида Шавкат Мирзиёевга Ўзбекистон Президенти сифатида муносабатингиз ўзгардими?"
 options_27 = ["Анча яхшиланди", "Озроқ яхшиланди", "Озроқ ёмонлашди", "Анча ёмонлашди", "Ҳеч нарса ўзгармади", "Жавоб беришга қийналаман"]
-question_27 = radio_button_question(prezident_frame, label_27_row, 
+question_27 = radio_button_question(prezident_frame, label_27_row,
                                     options_27, text=text_27)
 
 # Question 28
@@ -431,7 +441,7 @@ options_29 = [
     "19. Ҳеч қандай ютуғи йўқ",
     "20. Жавоб беришга қийналаман"
     ]
-results_29 = checkbox_question(prezident_frame, label_29_row, options_29, 
+results_29 = checkbox_question(prezident_frame, label_29_row, options_29,
                                text_29, True)
 
 # Question 30
@@ -450,7 +460,7 @@ options_30 = [
     "10. Ҳеч қандай камчилиги йўқ",
     "11. Жавоб беришга қийналаман"
     ]
-results_30 = checkbox_question(prezident_frame, label_30_row, options_30, 
+results_30 = checkbox_question(prezident_frame, label_30_row, options_30,
                                text_30, True)
 
 # Question 31
@@ -464,8 +474,8 @@ question_31 = radio_button_question(
 label_32_row = 79
 text_32 = "32. Сизнингча, Ўзбекистон Республикаси Президенти Шавкат Мирзиёев биринчи навбатда қандай вазифаларни ҳал этиши керак?"
 num_options_32 = 3
-results_32 = inputting_questions(prezident_frame, label_32_row, num_options_32, text_32)
-                          
+results_32 = inputting_questions(prezident_frame, label_32_row, num_options_32, text_32, True)
+
 
 # Question 33
 label_33_row = 84
@@ -478,15 +488,15 @@ question_33 = radio_button_question(prezident_frame, label_33_row, options_33, t
 #
 
 major_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthickness=0, padx=10, pady=10)
-major_frame.pack()
-label_major = tk.Label(major_frame, text="Ҳокимлар")
+major_frame.pack(fill=tk.BOTH, expand=True)
+label_major = tk.Label(major_frame, text="Ҳокимлар") ###########################
 label_major.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
 label_major.config(font=("helvetica", 12), fg="green")
 
 # Question 34
 label_34_row = 1
 text_34 = "34. Айтингчи, Сиз вилоят ҳокимига ишонасизми ёки ишонмайсизми?"
-options_34 = ["Тўлиқ ишонаман", "Қисман ишонаман", "Қисман ишонмайман", 
+options_34 = ["Тўлиқ ишонаман", "Қисман ишонаман", "Қисман ишонмайман",
               "Умуман ишонмайман", "Жавоб беришга қийналаман"]
 question_34 = radio_button_question(major_frame, label_34_row, options_34, text_34)
 
@@ -497,7 +507,7 @@ options_35 = [1, 2, 3, 4, 5, 6, 7]
 question_35 = radio_button_question(major_frame, label_35_row, options_35, text_35)
 
 # Question 36
-label_36_row = 15 
+label_36_row = 15
 text_36 = "36. Сизнингча вилоят/республикага янги ҳоким керакми ёки амалдаги ҳоким қолгани яхшими?"
 options_36 = ["Янги ҳоким керак","Амалдаги қолгани яхши","Менга фарқи йўқ","Жавоб беришга қийналаман"]
 question_36 = radio_button_question(major_frame, label_36_row, options_36, text_36)
@@ -538,7 +548,7 @@ question_41 = radio_button_question(major_frame, label_41_row, options_41, text_
 #
 
 parliament_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthickness=0, padx=10, pady=10)
-parliament_frame.pack()
+parliament_frame.pack(fill=tk.BOTH, expand=True)
 label_parliament = tk.Label(parliament_frame, text="Парламент ва сиёсий партиялар")
 label_parliament.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
 label_parliament.config(font=("helvetica", 12), fg="green")
@@ -571,7 +581,7 @@ question_43 = radio_button_question(parliament_frame, label_43_row, options_43, 
 label_44_row = 22
 text_44 = "44. Нега айнан шу партияга овоз берган бўлардингиз?"
 num_options_44 = 2
-results_44 = inputting_questions(parliament_frame, label_44_row, 2, text_44)
+results_44 = inputting_questions(parliament_frame, label_44_row, 2, text_44, True)
 
 # Question 45
 label_45_row = 26
@@ -586,9 +596,9 @@ options_45 = [
     "7. Бюллетенни йиртаман",
     "8. Сайловга бормиман",
     "9. Жавоб беришга қийналаман",
-    "10. Рад этиш" 
+    "10. Рад этиш"
     ]
-question_45 = radio_button_question(parliament_frame, label_45_row, 
+question_45 = radio_button_question(parliament_frame, label_45_row,
                                     options_45, text_45, True)
 
 # Question 46
@@ -606,7 +616,7 @@ options_46 = [
     "9. Жавоб беришга қийналаман",
     "10. Рад этиш"
     ]
-question_46 = checkbox_question(parliament_frame, label_46_row, 
+question_46 = checkbox_question(parliament_frame, label_46_row,
                                     options_46, text_46, True)
 
 
@@ -615,7 +625,7 @@ question_46 = checkbox_question(parliament_frame, label_46_row,
 #
 
 elections_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthickness=0, padx=10, pady=10)
-elections_frame.pack()
+elections_frame.pack(fill=tk.BOTH, expand=True)
 label_parliament = tk.Label(elections_frame, text="Республика Президентлигига сайлов")
 label_parliament.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
 label_parliament.config(font=("helvetica", 12), fg="green")
@@ -627,7 +637,7 @@ options_47 = [
     "2021 й. 24 октябрь",
     "2021 й. октябрь",
     "билмайман/жавоб беришга қийналаман",
-    "бошқа сана"    
+    "бошқа сана"
     ]
 question_47 = radio_button_question(elections_frame, label_47_row, options_47, text_47)
 
@@ -667,7 +677,7 @@ options_50 = [
     "7. Партия муҳим эмас",
     "8. Жавоб беришга қийналаман",
 ]
-question_50 = radio_button_question(elections_frame, label_50_row, 
+question_50 = radio_button_question(elections_frame, label_50_row,
                                     options_50, text_50, True)
 
 #
@@ -675,7 +685,7 @@ question_50 = radio_button_question(elections_frame, label_50_row,
 #
 
 ict_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthickness=0, padx=10, pady=10)
-ict_frame.pack()
+ict_frame.pack(fill=tk.BOTH, expand=True)
 label_parliament = tk.Label(ict_frame, text="Ахборот манбалари")
 label_parliament.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
 label_parliament.config(font=("helvetica", 12), fg="green")
@@ -711,7 +721,7 @@ options_52=[
     "9. Жавоб беришга қийналаман"
 ]
 
-question_52 = radio_button_question(ict_frame, label_52_row, 
+question_52 = radio_button_question(ict_frame, label_52_row,
                                     options_52, text_52, True)
 
 # Question 53
@@ -747,7 +757,7 @@ results_53 = checkbox_question(ict_frame, label_53_row, options=options_53,
 #
 
 financials_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthickness=0, padx=10, pady=10)
-financials_frame.pack()
+financials_frame.pack(fill=tk.BOTH, expand=True)
 label_parliament = tk.Label(financials_frame, text="Молиявий аҳвол")
 label_parliament.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
 label_parliament.config(font=("helvetica", 12), fg="green")
@@ -762,7 +772,7 @@ options_54=[
     "3. Олий (бакалавр, магистр)",
 ]
 
-question_54 = radio_button_question(financials_frame, label_54_row, 
+question_54 = radio_button_question(financials_frame, label_54_row,
                                     options_54, text_54)
 # Question 55
 label_55_row = 5
@@ -777,7 +787,7 @@ options_55=[
     "7. Жавоб беришни рад этди"
 ]
 
-question_55 = radio_button_question(financials_frame, label_55_row, 
+question_55 = radio_button_question(financials_frame, label_55_row,
                                     options_55, text_55)
 
 # Question 56
@@ -815,8 +825,14 @@ options_57=[
     "6. Жавоб беришни рад этди"
 ]
 
-question_57 = radio_button_question(financials_frame, label_57_row, 
+question_57 = radio_button_question(financials_frame, label_57_row,
                                     options_57, text_57)
+
+# Question 58
+label_58_row = 38
+text_58 = "58.  Боғланиш учун телефон рақамингизни киритинг (камида 2 та рақамни киритиш)"
+num_options_58 = 2
+results_58 = inputting_questions(financials_frame, label_58_row, num_options_58, text_58, False)
 
 util.main()
 controller.main()
