@@ -18,6 +18,26 @@ def is_cyrillic(input_string, action_type):
     return True
 
 
+def is_properly_filled(input_widgets):
+    interviewer_id, mahalla_id, survey_id = input_widgets[0][0]
+    if any(
+        (len(interviewer_id.get()) != 4,
+         len(mahalla_id.get()) != 2,
+         len(survey_id.get()) != 2)
+    ):
+        return False
+
+    # early stopping conditions
+    if any(
+        input_widgets[2][0].get() == 2,
+        input_widgets[4][0].get() == 3,
+        int(input_widgets[6][0].get()) < 18
+    ):
+        return True
+
+
+
+
 def clear_data(input_widgets):
     for widgets, state in input_widgets:
         if isinstance(widgets, list):
@@ -43,6 +63,9 @@ def clear_data(input_widgets):
 
 
 def save_data(input_widgets):
+    if not is_properly_filled(input_widgets):
+        return
+
     input_info = []
     for widgets, state in input_widgets:
         if isinstance(widgets, list):
@@ -52,7 +75,6 @@ def save_data(input_widgets):
             input_info.append(widgets.get())
 
     if not os.path.isdir("Database"):
-        # util.log('warn', 'Seems like a folder for database outputs does not exist. Let me create it for you...')
         os.mkdir("Database")
 
     try:
@@ -76,13 +98,8 @@ def save_data(input_widgets):
             worksheet.write_row(1, 0, input_info)
 
         os.chdir("..")
-        # util.log('success', f"An Excel file has been created successfully as {os.getcwd()}/{name}.xlsx")
     except Exception as error:
         util.log('error', str(error))
-    #     util.log('error', "Could not create an Excel file")
-    #     util.log('error', str(error))
-    # finally:
-    #     pass
 
 
 def entry_clicked(radio_var, entry):
