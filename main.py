@@ -1,6 +1,4 @@
-﻿# -*- coding: utf-8 -*-
-
-import controller
+﻿import controller
 import tkinter as tk
 from tkinter import ttk
 from util.helper_functions import *
@@ -57,46 +55,51 @@ label_info.config(font=("helvetica", 14), fg="green")
 
 # Question 0
 label_0_row = 1
-label_0 = tk.Label(info_frame, text="Cухбатчи IDси: ")
-label_0.grid(row=label_0_row, column=0, padx=10, pady=10, sticky="e")
-label_0.config(font=("helvetica", 12))
-question_0 = tk.Entry(info_frame, validate="key")
-question_0.configure(validatecommand=(question_0.register(is_digit),'%P','%d'))
-question_0.grid(row=label_0_row, column=1, padx=10, pady=10)
+texts_0 = ["Сухбатчи IDси: ", "Маҳалла IDси: ", "Анкета IDси: "]
+question_0 = []
+for idx, text_0 in enumerate(texts_0):
+    row_0 = label_0_row+idx
+    label_0 = tk.Label(info_frame, text=text_0)
+    label_0.grid(row=row_0, column=0, padx=10, pady=10, sticky="e")
+    label_0.config(font=("helvetica", 12))
+    entry_0 = tk.Entry(info_frame, validate="key")
+    entry_0.configure(validatecommand=(entry_0.register(is_digit),'%P','%d'))
+    entry_0.grid(row=row_0, column=1, padx=10, pady=10)
+    question_0.append(entry_0)
 
 # Question 1
-label_1_row = 2
+label_1_row = 4
 text_1 = "1. Исмингиз нима?"
 num_options_1 = 1
 question_1 = inputting_questions(info_frame, label_1_row, num_options_1, text_1, False)
 
 # Question 2
-label_2_row = 4
+label_2_row = 6
 text_2 = "2. Сиз вилоятда доимий яшайсизми ва рўйхатдан ўтганмисиз?"
 options_2 = ["Ҳа", "Йўқ"]
 question_2 = radio_button_question(info_frame, label_2_row,
-                                   options_2, text=text_2)
+                                    options_2, text=text_2)
 
 # Question 3
-label_3_row = 7
+label_3_row = 9
 text_3 = "3. Сиз вилоятнинг қайси тумани(шаҳри)да яшайсиз?"
 num_options_3 = 1
 question_3 = inputting_questions(info_frame, label_3_row, num_options_3, text_3, False)
 
 # Question 4
-label_4_row = 9
+label_4_row = 11
 text_4 = "4. Шаҳар ёки қишлоқ тугмасини танланг."
 options_4 = ["Шаҳар", "Қишлоқ", "Бош Тортиш"]
 question_4 = radio_button_question(info_frame, label_4_row, options_4, text_4)
 
 # Question 5
-label_5_row = 13
+label_5_row = 15
 text_5 = "5. Респондентнинг жинсини киритинг."
 options_5 = ["Эркак", "Аёл"]
 question_5 = radio_button_question(info_frame, label_5_row, options_5, text_5)
 
 # Question 6
-label_6_row = 16
+label_6_row = 18
 label_6 = tk.Label(info_frame, text="6. Респондентнинг ёшини киритинг.")
 label_6.grid(row=label_6_row, column=0, padx=10, pady=30, columnspan=3)
 label_6.config(font=("helvetica", 12))
