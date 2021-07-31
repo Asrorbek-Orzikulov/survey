@@ -1,4 +1,6 @@
-﻿import controller
+﻿# -*- coding: utf-8 -*-
+
+import controller
 import tkinter as tk
 from tkinter import ttk
 from util.helper_functions import *
@@ -41,7 +43,7 @@ head_frame.grid_columnconfigure(0, weight=1)
 head_frame.grid_rowconfigure(0, weight=1)
 label_head = tk.Label(head_frame, text="Ўзбекистон Республикасида  ижтимоий-сиёсий вазиятни ўрганиш (2021 июль)")
 label_head.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
-label_head.config(font=("helvetica", 14), fg="dark blue")
+label_head.config(font=("helvetica", 16), fg="dark blue")
 
 #
 # info section
@@ -51,12 +53,13 @@ info_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthickness=0, p
 info_frame.pack(fill=tk.BOTH, expand=True)
 label_info = tk.Label(info_frame, text="Сўров иштирокчиларининг ижтимоий-демографик хусусиятлари")
 label_info.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
-label_info.config(font=("helvetica", 12), fg="green")
+label_info.config(font=("helvetica", 14), fg="green")
 
 # Question 0
 label_0_row = 1
 label_0 = tk.Label(info_frame, text="Cухбатчи IDси: ")
 label_0.grid(row=label_0_row, column=0, padx=10, pady=10, sticky="e")
+label_0.config(font=("helvetica", 12))
 question_0 = tk.Entry(info_frame, validate="key")
 question_0.configure(validatecommand=(question_0.register(is_digit),'%P','%d'))
 question_0.grid(row=label_0_row, column=1, padx=10, pady=10)
@@ -93,12 +96,13 @@ options_5 = ["Эркак", "Аёл"]
 question_5 = radio_button_question(info_frame, label_5_row, options_5, text_5)
 
 # Question 6
-label_16_row = 16
+label_6_row = 16
 label_6 = tk.Label(info_frame, text="6. Респондентнинг ёшини киритинг.")
-label_6.grid(row=label_16_row, column=0, padx=10, pady=30, columnspan=3)
+label_6.grid(row=label_6_row, column=0, padx=10, pady=30, columnspan=3)
+label_6.config(font=("helvetica", 12))
 question_6 = tk.Entry(info_frame, validate="key")
 question_6.configure(validatecommand=(question_6.register(is_digit),'%P','%d'))
-question_6.grid(row=label_16_row+1, column=0, columnspan=3, padx=10, pady=10)
+question_6.grid(row=label_6_row+1, column=0, columnspan=3, padx=10, pady=10)
 
 #
 # welfare section
@@ -108,20 +112,20 @@ welfare_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthickness=0
 welfare_frame.pack(fill=tk.BOTH, expand=True)
 label_welfare = tk.Label(welfare_frame, text="Ижтимоий фаровонлик диагностикаси. Кайфиятлар")
 label_welfare.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
-label_welfare.config(font=("helvetica", 12), fg="green")
+label_welfare.config(font=("helvetica", 14), fg="green")
 
-# Question 7_0
-label_7_0_row = 1
-tex_7_0 = "7.0. Мамлакатдаги умумий вазиятдан (ҳолатдан) қониқиш даражангизни 7 баллик шкалада баҳоланг."
-options_7_0 = [1, 2, 3, 4, 5, 6, 7]
-question_7_0 = radio_button_question(welfare_frame, label_7_0_row,
-                                        options_7_0, tex_7_0)
+# Question 7_1
+label_7_1_row = 1
+tex_7_1 = "7.1. Мамлакатдаги умумий вазиятдан (ҳолатдан) қониқиш даражангизни 7 баллик шкалада баҳоланг."
+options_7_1 = [1, 2, 3, 4, 5, 6, 7]
+question_7_1 = radio_button_question(welfare_frame, label_7_1_row,
+                                        options_7_1, tex_7_1)
 
-# Question 7
-label_7_row = 9
-text_7 = "7. Сизнингча, мамлакатдаги умумий вазият яхшиланмоқдами, ёмонлашмоқдами ёки деярли ўзгармаяптими?"
-question_7 = radio_button_question(welfare_frame, label_7_row, ["Яхшиланмоқда", "Ёмонлашмоқда", "Деярли ўзгармаяпти", "Жавоб беришга қийналаман"],
-                            text=text_7)
+# Question 7_2
+label_7_2_row = 9
+text_7_2 = "7.2. Сизнингча, мамлакатдаги умумий вазият яхшиланмоқдами, ёмонлашмоқдами ёки деярли ўзгармаяптими?"
+question_7_2 = radio_button_question(welfare_frame, label_7_2_row, ["Яхшиланмоқда", "Ёмонлашмоқда", "Деярли ўзгармаяпти", "Жавоб беришга қийналаман"],
+                            text=text_7_2)
 
 # Question 8
 label_8_row = 14
@@ -189,7 +193,7 @@ prezident_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthickness
 prezident_frame.pack(fill=tk.BOTH, expand=True)
 label_prezident = tk.Label(prezident_frame, text="Президент")
 label_prezident.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
-label_prezident.config(font=("helvetica", 12), fg="green")
+label_prezident.config(font=("helvetica", 14), fg="green")
 
 # Question 16
 label_16_row = 1
@@ -352,7 +356,7 @@ major_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthickness=0, 
 major_frame.pack(fill=tk.BOTH, expand=True)
 label_major = tk.Label(major_frame, text="Ҳокимлар") ###########################
 label_major.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
-label_major.config(font=("helvetica", 12), fg="green")
+label_major.config(font=("helvetica", 14), fg="green")
 
 # Question 34
 label_34_row = 1
@@ -411,7 +415,7 @@ parliament_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthicknes
 parliament_frame.pack(fill=tk.BOTH, expand=True)
 label_parliament = tk.Label(parliament_frame, text="Парламент ва сиёсий партиялар")
 label_parliament.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
-label_parliament.config(font=("helvetica", 12), fg="green")
+label_parliament.config(font=("helvetica", 14), fg="green")
 
 # Question 42
 label_42_row = 1
@@ -486,7 +490,7 @@ elections_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthickness
 elections_frame.pack(fill=tk.BOTH, expand=True)
 label_parliament = tk.Label(elections_frame, text="Республика Президентлигига сайлов")
 label_parliament.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
-label_parliament.config(font=("helvetica", 12), fg="green")
+label_parliament.config(font=("helvetica", 14), fg="green")
 
 # Question 47
 label_47_row = 1
@@ -546,7 +550,7 @@ ict_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthickness=0, pa
 ict_frame.pack(fill=tk.BOTH, expand=True)
 label_parliament = tk.Label(ict_frame, text="Ахборот манбалари")
 label_parliament.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
-label_parliament.config(font=("helvetica", 12), fg="green")
+label_parliament.config(font=("helvetica", 14), fg="green")
 
 # Question 51
 label_51_row = 1
@@ -615,7 +619,7 @@ financials_frame = tk.LabelFrame(inside_frame, borderwidth=10, highlightthicknes
 financials_frame.pack(fill=tk.BOTH, expand=True)
 label_parliament = tk.Label(financials_frame, text="Молиявий аҳвол")
 label_parliament.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
-label_parliament.config(font=("helvetica", 12), fg="green")
+label_parliament.config(font=("helvetica", 14), fg="green")
 
 # Question 54
 label_54_row = 1
@@ -686,6 +690,7 @@ label_58_row = 38
 text_58 = "58.  Боғланиш учун телефон рақамингизни киритинг (камида 2 та рақамни киритиш)"
 label_58 = tk.Label(financials_frame, text=text_58)
 label_58.grid(row=label_58_row, column=0, padx=10, pady=10, columnspan=3)
+label_58.config(font=("helvetica", 12))
 question_58 = [tk.Entry(financials_frame, validate="key"),
                tk.Entry(financials_frame, validate="key")]
 for idx, entry in enumerate(question_58):
@@ -701,8 +706,8 @@ question_widgets = [
     question_4,
     question_5,
     question_6,
-    question_7_0,
-    question_7,
+    question_7_1,
+    question_7_2,
     question_8,
     question_9,
     question_10,

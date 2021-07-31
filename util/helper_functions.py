@@ -4,6 +4,100 @@ import os
 import xlsxwriter
 
 
+alphabet = {
+    ' ',
+    'X',
+    'x',
+    'Ё',
+    'Ў',
+    'А',
+    'Б',
+    'В',
+    'Г',
+    'Д',
+    'Ж',
+    'З',
+    'И',
+    'Й',
+    'К',
+    'Л',
+    'М',
+    'Н',
+    'О',
+    'П',
+    'Р',
+    'С',
+    'Т',
+    'У',
+    'Ф',
+    'Ц',
+    'Ч',
+    'Ш',
+    'Щ',
+    'Ъ',
+    'Ь',
+    'Ы',
+    'Э',
+    'Ю',
+    'Я',
+    'а',
+    'б',
+    'в',
+    'г',
+    'д',
+    'ж',
+    'з',
+    'и',
+    'й',
+    'к',
+    'л',
+    'м',
+    'н',
+    'о',
+    'п',
+    'р',
+    'с',
+    'т',
+    'у',
+    'ф',
+    'ц',
+    'ч',
+    'ш',
+    'щ',
+    'ъ',
+    'ь',
+    'э',
+    'ю',
+    'я',
+    'ё',
+    'ў',
+    'Ғ',
+    'ғ',
+    'Қ',
+    'қ',
+    'Ҳ',
+    'ҳ',
+    'ы'
+    }
+
+
+# set(["АБДЭФГҒXҲИЖКҚЛМНОПРСТУЎВЙЗШЩЧЁЮЯЦЪЬабдэфгғxҳижкқлмнопрстуўвйзшщчёюяцъь "])
+
+# alpha = set()
+# for char in "АБДЭФГҒXҲИЖКҚЛМНОПРСТУЎВЙЗШЩЧЁЮЯЦЪЬабдэфгғxҳижкқлмнопрстуўвйзшщчёюяцъь ":
+#     alpha.add(char)
+def is_digit(input_string, action_type):
+    if action_type == '1': #insert
+        if not input_string.isdigit():
+            return False
+    return True
+
+def is_cyrillic(input_string, action_type):
+    if action_type == '1':
+        if not input_string in alphabet:
+            return False
+    return True
+
 # survey_structure = [
 #     (0, 1),
 #     (1, 1),
@@ -85,8 +179,8 @@ column_names = [
     'Q_4',
     'Q_5',
     'Q_6',
-    'Q_7_0',
-    'Q_7',
+    'Q_7_1',
+    'Q_7_2',
     'Q_8',
     'Q_9',
     'Q_10',
@@ -170,11 +264,13 @@ column_names = [
     'Q_40',
     'Q_41',
     'Q_42',
-    'Q_43',
+    'Q_43_1',
+    'Q_43_2',
     'Q_44_1',
     'Q_44_2',
     'Q_44_3',
-    'Q_45',
+    'Q_45_1',
+    'Q_45_2',
     'Q_46_1',
     'Q_46_2',
     'Q_46_3',
@@ -189,7 +285,8 @@ column_names = [
     'Q_47',
     'Q_48',
     'Q_49',
-    'Q_50',
+    'Q_50_1',
+    'Q_50_2',
     'Q_51_1',
     'Q_51_2',
     'Q_51_3',
@@ -198,7 +295,8 @@ column_names = [
     'Q_51_6',
     'Q_51_7',
     'Q_51_8',
-    'Q_52',
+    'Q_52_1',
+    'Q_52_2',
     'Q_53_1',
     'Q_53_2',
     'Q_53_3',
@@ -220,7 +318,8 @@ column_names = [
     'Q_53_19',
     'Q_54',
     'Q_55',
-    'Q_56',
+    'Q_56_1',
+    'Q_56_2',
     'Q_57',
     'Q_58_1',
     'Q_58_2'
@@ -266,12 +365,6 @@ def save_data(input_widgets):
         pass
         # root.quit()
 
-def is_digit(input_string, action_type):
-    if action_type == '1': #insert
-        if not input_string.isdigit():
-            return False
-    return True
-
 
 def entry_clicked(radio_var, entry):
     radio_var.set(0)
@@ -281,29 +374,23 @@ def entry_clicked(radio_var, entry):
 def radio_button_question(frame_name, label_row, options, text, has_other=False):
     label = tk.Label(frame_name, text=text)
     label.grid(row=label_row, column=0, columnspan=3, padx=10, pady=30)
+    label.config(font=("helvetica", 12))
     variable = tk.IntVar(frame_name)
     for idx, option in enumerate(options):
         button = tk.Radiobutton(frame_name, text=option, value=idx+1, variable=variable)
-        button.grid(row=label_row+idx+1, column=1, padx=10, pady=5, sticky="w") #####################
+        button.grid(row=label_row+idx+1, column=1, padx=10, pady=5, sticky="w")
 
     if has_other:
         offset = len(options) + 1
-        entry = tk.Entry(frame_name, width=100)
+        entry = tk.Entry(frame_name, width=100, validate="key")
+        entry.configure(validatecommand=(entry.register(is_cyrillic),'%S','%d'))
         entry.grid(row=label_row+offset+1, column=0, columnspan=3, padx=10, pady=15)
         entry.configure(state=tk.DISABLED)
         other_button = tk.Button(
             frame_name, text="   Бошқа    ",
             command=lambda: entry_clicked(variable, entry))
         other_button.grid(row=label_row+offset, column=1, sticky="w", pady=5)
-
-        if variable.get() == 0 and entry.get() == "":
-            return variable
-        elif variable.get() == 0 and entry.get() != "":
-            return entry
-        elif variable.get() != 0:
-            return variable
-        else:
-            raise ValueError("ValueError exception thrown")
+        return [variable, entry]
 
     return variable
 
@@ -311,6 +398,7 @@ def checkbox_question(frame_name, label_row, options, text, has_other=False):
     results = []
     label = tk.Label(frame_name, text=text)
     label.grid(row=label_row, column=0, columnspan=3, padx=10, pady=30)
+    label.config(font=("helvetica", 12))
     offset = 1
     for idx, option in enumerate(options):
         result = tk.IntVar()
@@ -321,7 +409,8 @@ def checkbox_question(frame_name, label_row, options, text, has_other=False):
 
     # taking care of 'Other'
     if has_other:
-        entry = tk.Entry(frame_name, width=100)
+        entry = tk.Entry(frame_name, width=100, validate="key")
+        entry.configure(validatecommand=(entry.register(is_cyrillic),'%S','%d'))
         entry.grid(row=label_row+offset+1, column=0, columnspan=3, padx=10, pady=30)
         entry.configure(state=tk.DISABLED)
         button = tk.Button(
@@ -335,8 +424,10 @@ def inputting_questions(frame_name, label_row, num_options, text, has_difficult)
     results = []
     label = tk.Label(frame_name, text=text)
     label.grid(row=label_row, column=0, columnspan=3, padx=10, pady=30)
+    label.config(font=("helvetica", 12))
     for idx in range(1, num_options+1):
-        entry = tk.Entry(frame_name, width=100)
+        entry = tk.Entry(frame_name, width=100, validate="key", font=("Arial", 10)) ###############
+        # entry.configure(validatecommand=(entry.register(is_cyrillic),'%S','%d')) ##############
         entry.grid(row=label_row+idx, column=0, columnspan=3, padx=10, pady=10)
         results.append(entry)
 
