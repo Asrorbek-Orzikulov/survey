@@ -378,6 +378,7 @@ def radio_button_question(frame_name, label_row, options, text, has_other=False)
     variable = tk.IntVar(frame_name)
     for idx, option in enumerate(options):
         button = tk.Radiobutton(frame_name, text=option, value=idx+1, variable=variable)
+        button.configure(font=("helvetica", 12))
         button.grid(row=label_row+idx+1, column=1, padx=10, pady=5, sticky="w")
 
     if has_other:
@@ -385,9 +386,9 @@ def radio_button_question(frame_name, label_row, options, text, has_other=False)
         entry = tk.Entry(frame_name, width=100, validate="key")
         entry.configure(validatecommand=(entry.register(is_cyrillic),'%S','%d'))
         entry.grid(row=label_row+offset+1, column=0, columnspan=3, padx=10, pady=15)
-        entry.configure(state=tk.DISABLED)
+        entry.configure(state=tk.DISABLED, font=("helvetica", 12))
         other_button = tk.Button(
-            frame_name, text="   Бошқа    ",
+            frame_name, text="   Бошқа    ", font=("helvetica", 12),
             command=lambda: entry_clicked(variable, entry))
         other_button.grid(row=label_row+offset, column=1, sticky="w", pady=5)
         return [variable, entry]
@@ -402,19 +403,19 @@ def checkbox_question(frame_name, label_row, options, text, has_other=False):
     offset = 1
     for idx, option in enumerate(options):
         result = tk.IntVar()
-        check_box = tk.Checkbutton(frame_name, text=option, variable=result)
+        check_box = tk.Checkbutton(frame_name, text=option, variable=result, font=("helvetica", 12))
         check_box.grid(row=label_row+offset, column=1, padx=10, pady=5, sticky="w")
         results.append(result)
         offset += 1
 
     # taking care of 'Other'
     if has_other:
-        entry = tk.Entry(frame_name, width=100, validate="key")
+        entry = tk.Entry(frame_name, width=100, validate="key", font=("helvetica", 12))
         entry.configure(validatecommand=(entry.register(is_cyrillic),'%S','%d'))
         entry.grid(row=label_row+offset+1, column=0, columnspan=3, padx=10, pady=30)
         entry.configure(state=tk.DISABLED)
         button = tk.Button(
-            frame_name, text="   Бошқа    ",
+            frame_name, text="   Бошқа    ", font=("helvetica", 12),
             command=lambda: entry.configure(state=tk.NORMAL))
         button.grid(row=label_row+offset, column=1, padx=10, pady=5, sticky="w")
         results.append(entry)
@@ -426,14 +427,15 @@ def inputting_questions(frame_name, label_row, num_options, text, has_difficult)
     label.grid(row=label_row, column=0, columnspan=3, padx=10, pady=30)
     label.config(font=("helvetica", 12))
     for idx in range(1, num_options+1):
-        entry = tk.Entry(frame_name, width=100, validate="key", font=("Arial", 10)) ###############
-        # entry.configure(validatecommand=(entry.register(is_cyrillic),'%S','%d')) ##############
+        entry = tk.Entry(frame_name, width=100, validate="key", font=("Arial", 12))
+        entry.configure(validatecommand=(entry.register(is_cyrillic),'%S','%d'))
         entry.grid(row=label_row+idx, column=0, columnspan=3, padx=10, pady=10)
         results.append(entry)
 
     if has_difficult:
         is_difficult = tk.IntVar()
         check_box = tk.Checkbutton(frame_name, text="Жавоб беришга қийналаман", variable=is_difficult)
+        check_box.configure(font=("helvetica", 12))
         check_box.grid(row=label_row+num_options+1, column=1, padx=10, pady=5, sticky="w")
         results.append(is_difficult)
     return results
