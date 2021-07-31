@@ -4,370 +4,85 @@ import os
 import xlsxwriter
 
 
-alphabet = {
-    ' ',
-    'Х',
-    'х',
-    'Ё',
-    'Е',
-    'А',
-    'Б',
-    'В',
-    'Г',
-    'Д',
-    'Ж',
-    'З',
-    'И',
-    'Й',
-    'К',
-    'Л',
-    'М',
-    'Н',
-    'О',
-    'П',
-    'Р',
-    'С',
-    'Т',
-    'У',
-    'Ф',
-    'Ц',
-    'Ч',
-    'Ш',
-    'Щ',
-    'Ъ',
-    'Ь',
-    'Ы',
-    'Э',
-    'Ю',
-    'Я',
-    'а',
-    'б',
-    'в',
-    'г',
-    'д',
-    'ж',
-    'з',
-    'и',
-    'й',
-    'к',
-    'л',
-    'м',
-    'н',
-    'о',
-    'п',
-    'р',
-    'с',
-    'т',
-    'у',
-    'ф',
-    'ц',
-    'ч',
-    'ш',
-    'щ',
-    'ъ',
-    'ь',
-    'э',
-    'ю',
-    'я',
-    'ё',
-    'е',
-    # 'Ў',
-    # 'ў',
-    # 'Ғ',
-    # 'ғ',
-    # 'Қ',
-    # 'қ',
-    # 'Ҳ',
-    # 'ҳ',
-    'ы'
-    }
-
-
-# set(["АБДЭФГҒXҲИЖКҚЛМНОПРСТУЎВЙЗШЩЧЁЮЯЦЪЬабдэфгғxҳижкқлмнопрстуўвйзшщчёюяцъь "])
-
-# alpha = set()
-# for char in "АБДЭФГҒXҲИЖКҚЛМНОПРСТУЎВЙЗШЩЧЁЮЯЦЪЬабдэфгғxҳижкқлмнопрстуўвйзшщчёюяцъь ":
-#     alpha.add(char)
 def is_digit(input_string, action_type):
-    if action_type == '1': #insert
+    if action_type == '1':  # insertion
         if not input_string.isdigit():
             return False
     return True
 
+
 def is_cyrillic(input_string, action_type):
     if action_type == '1':
-        if not input_string in alphabet:
+        if input_string not in util.ALPHABET:
             return False
     return True
 
-# survey_structure = [
-#     (0, 1),
-#     (1, 1),
-#     (2, 1),
-#     (3, 1),
-#     (4, 1),
-#     (5, 1),
-#     (6, 1),
-#     (6.1, 1),
-#     (7, 1),
-#     (8, 1),
-#     (9, 1),
-#     (10, 1),
-#     (11, 1),
-#     (12, 1),
-#     (13, 1),
-#     (14, 1),
-#     (15, 10),
-#     (16, 1),
-#     (17, 6),
-#     (18, 1),
-#     (19, 1),
-#     (20, 1),
-#     (21, 1),
-#     (22, 1),
-#     (23, 1),
-#     (24, 1),
-#     (25, 1),
-#     (26, 1),
-#     (27, 1),
-#     (28, 1),
-#     (29, 21),
-#     (30, 12),
-#     (31, 1),
-#     (32, 4),
-#     (33, 1),
-#     (34, 1),
-#     (35, 1),
-#     (36, 1),
-#     (37, 1),
-#     (38, 1),
-#     (39, 1),
-#     (40, 1),
-#     (41, 1),
-#     (42, 1),
-#     (43, 1),
-#     (44, 3),
-#     (45, 1),
-#     (46, 11),
-#     (47, 1),
-#     (48, 1),
-#     (49, 1),
-#     (50, 1),
-#     (51, 8),
-#     (52, 1),
-#     (53, 19),
-#     (54, 1),
-#     (55, 1),
-#     (56, 1),
-#     (57, 1),
-#     (58, 2)
-#     ]
 
-# column_names = []
-# for question, num_answers in survey_structure:
-#     for count in range(1, num_answers+1):
-#         if num_answers == 1:
-#             column_name = "Q_" + str(question)
-#         else:
-#             column_name = "Q_" + str(question) + "_" + str(count)
-#         column_names.append(column_name)
-
-
-column_names = [
-    'Q_0_1',
-    'Q_0_2',
-    'Q_0_3',
-    'Q_1',
-    'Q_2',
-    'Q_3',
-    'Q_4',
-    'Q_5',
-    'Q_6',
-    'Q_7_1',
-    'Q_7_2',
-    'Q_8',
-    'Q_9',
-    'Q_10',
-    'Q_11',
-    'Q_12',
-    'Q_13',
-    'Q_14',
-    'Q_15_1',
-    'Q_15_2',
-    'Q_15_3',
-    'Q_15_4',
-    'Q_15_5',
-    'Q_15_6',
-    'Q_15_7',
-    'Q_15_8',
-    'Q_15_9',
-    'Q_15_10',
-    'Q_16',
-    'Q_17_1',
-    'Q_17_2',
-    'Q_17_3',
-    'Q_17_4',
-    'Q_17_5',
-    'Q_17_6',
-    'Q_18',
-    'Q_19',
-    'Q_20',
-    'Q_21',
-    'Q_22',
-    'Q_23',
-    'Q_24',
-    'Q_25',
-    'Q_26',
-    'Q_27',
-    'Q_28',
-    'Q_29_1',
-    'Q_29_2',
-    'Q_29_3',
-    'Q_29_4',
-    'Q_29_5',
-    'Q_29_6',
-    'Q_29_7',
-    'Q_29_8',
-    'Q_29_9',
-    'Q_29_10',
-    'Q_29_11',
-    'Q_29_12',
-    'Q_29_13',
-    'Q_29_14',
-    'Q_29_15',
-    'Q_29_16',
-    'Q_29_17',
-    'Q_29_18',
-    'Q_29_19',
-    'Q_29_20',
-    'Q_29_21',
-    'Q_30_1',
-    'Q_30_2',
-    'Q_30_3',
-    'Q_30_4',
-    'Q_30_5',
-    'Q_30_6',
-    'Q_30_7',
-    'Q_30_8',
-    'Q_30_9',
-    'Q_30_10',
-    'Q_30_11',
-    'Q_30_12',
-    'Q_31',
-    'Q_32_1',
-    'Q_32_2',
-    'Q_32_3',
-    'Q_32_4',
-    'Q_33',
-    'Q_34',
-    'Q_35',
-    'Q_36',
-    'Q_37',
-    'Q_38',
-    'Q_39',
-    'Q_40',
-    'Q_41',
-    'Q_42',
-    'Q_43_1',
-    'Q_43_2',
-    'Q_44_1',
-    'Q_44_2',
-    'Q_44_3',
-    'Q_45_1',
-    'Q_45_2',
-    'Q_46_1',
-    'Q_46_2',
-    'Q_46_3',
-    'Q_46_4',
-    'Q_46_5',
-    'Q_46_6',
-    'Q_46_7',
-    'Q_46_8',
-    'Q_46_9',
-    'Q_46_10',
-    'Q_46_11',
-    'Q_47',
-    'Q_48',
-    'Q_49',
-    'Q_50_1',
-    'Q_50_2',
-    'Q_51_1',
-    'Q_51_2',
-    'Q_51_3',
-    'Q_51_4',
-    'Q_51_5',
-    'Q_51_6',
-    'Q_51_7',
-    'Q_51_8',
-    'Q_52_1',
-    'Q_52_2',
-    'Q_53_1',
-    'Q_53_2',
-    'Q_53_3',
-    'Q_53_4',
-    'Q_53_5',
-    'Q_53_6',
-    'Q_53_7',
-    'Q_53_8',
-    'Q_53_9',
-    'Q_53_10',
-    'Q_53_11',
-    'Q_53_12',
-    'Q_53_13',
-    'Q_53_14',
-    'Q_53_15',
-    'Q_53_16',
-    'Q_53_17',
-    'Q_53_18',
-    'Q_53_19',
-    'Q_54',
-    'Q_55',
-    'Q_56_1',
-    'Q_56_2',
-    'Q_57',
-    'Q_58_1',
-    'Q_58_2'
-    ]
+def clear_data(input_widgets):
+    for widgets, state in input_widgets:
+        if isinstance(widgets, list):
+            for widget in widgets:
+                if isinstance(widget, tk.Entry) and state == "hidden":
+                    widget.delete(0, tk.END)
+                    widget.insert(0, "")
+                    widget.configure(state=tk.DISABLED)
+                elif isinstance(widget, tk.Entry):
+                    widget.delete(0, tk.END)
+                    widget.insert(0, "")
+                elif isinstance(widget, tk.IntVar) or isinstance(widget, tk.Checkbutton):
+                    widget.set(0)
+                else:
+                    raise ValueError(str(widget.get()) + str(type(widget)))
+        elif isinstance(widgets, tk.IntVar):
+            widgets.set(0)
+        elif isinstance(widgets, tk.Entry):
+            widgets.delete(0, tk.END)
+            widgets.insert(0, "")
+        else:
+            raise ValueError(str(widgets.get()) + str(type(widgets)))
 
 
 def save_data(input_widgets):
     input_info = []
-    for widgets in input_widgets:
-        if type(widgets) == list:
+    for widgets, state in input_widgets:
+        if isinstance(widgets, list):
             for widget in widgets:
                 input_info.append(widget.get())
         else:
             input_info.append(widgets.get())
 
     if not os.path.isdir("Database"):
-        util.log('warn', 'Seems like a folder for database outputs does not exist. Let me create it for you...')
+        # util.log('warn', 'Seems like a folder for database outputs does not exist. Let me create it for you...')
         os.mkdir("Database")
 
     try:
         os.chdir("Database")
-        count = 0
+        start_str = ""
+        for entry in input_widgets[0][0]:
+            start_str += entry.get() + "-"
+
         file_exists = True
+        count = 0
         while file_exists:
-            if os.path.isfile(f"{util.filename(count)}.xlsx"):
+            if os.path.isfile(start_str + f"{count}.xlsx"):
                 count += 1
             else:
-                name = util.filename(count)
+                name = start_str + f"{count}"
                 file_exists = False
 
         with xlsxwriter.Workbook(f"{name}.xlsx") as workbook:
             worksheet = workbook.add_worksheet()
-            worksheet.write_row(0, 0, column_names)
+            worksheet.write_row(0, 0, util.COLUMN_NAMES)
             worksheet.write_row(1, 0, input_info)
 
-        util.log('success', f"An Excel file has been created successfully as {os.getcwd()}/{name}.xlsx")
         os.chdir("..")
-
+        # util.log('success', f"An Excel file has been created successfully as {os.getcwd()}/{name}.xlsx")
     except Exception as error:
-        util.log('error', "Could not create an Excel file")
         util.log('error', str(error))
-    finally:
-        pass
-        # root.quit()
+    #     util.log('error', "Could not create an Excel file")
+    #     util.log('error', str(error))
+    # finally:
+    #     pass
 
 
 def entry_clicked(radio_var, entry):
@@ -399,6 +114,7 @@ def radio_button_question(frame_name, label_row, options, text, has_other=False)
 
     return variable
 
+
 def checkbox_question(frame_name, label_row, options, text, has_other=False):
     results = []
     label = tk.Label(frame_name, text=text)
@@ -425,6 +141,7 @@ def checkbox_question(frame_name, label_row, options, text, has_other=False):
         results.append(entry)
     return results
 
+
 def inputting_questions(frame_name, label_row, num_options, text, has_difficult):
     results = []
     label = tk.Label(frame_name, text=text)
@@ -432,7 +149,7 @@ def inputting_questions(frame_name, label_row, num_options, text, has_difficult)
     label.config(font=("Arial", 12))
     for idx in range(1, num_options+1):
         entry = tk.Entry(frame_name, width=100, validate="key", font=("Arial", 12))
-        # entry.configure(validatecommand=(entry.register(is_cyrillic),'%S','%d'))
+        entry.configure(validatecommand=(entry.register(is_cyrillic),'%S','%d'))
         entry.grid(row=label_row+idx, column=0, columnspan=3, padx=10, pady=10)
         results.append(entry)
 
