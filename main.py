@@ -1,4 +1,5 @@
 ﻿import controller
+import tkinter as tk
 from tkinter import ttk
 from util.helper_functions import *
 
@@ -8,8 +9,10 @@ from util.helper_functions import *
 
 root = tk.Tk()
 root.title("Анкета Опроса Населения")
-root.iconbitmap("images/icon.ico")
-root.geometry("{0}x{1}+0+0".format(root.winfo_screenwidth(), root.winfo_screenheight()))
+# root.iconbitmap("images/icon.ico")
+root_width = root.winfo_screenwidth() - 15
+root_height = root.winfo_screenheight() - 70
+root.geometry("{0}x{1}+0+0".format(root_width, root_height))
 
 # adding a scrollbar
 main_frame = tk.Frame(root)
@@ -27,16 +30,6 @@ canvas.bind_all("<MouseWheel>",
 
 inside_frame = tk.Frame(canvas, borderwidth=10)
 canvas.create_window((0, 0), window=inside_frame, anchor="nw")
-
-# button at the bottom
-bottom_frame = tk.LabelFrame(root, borderwidth=4, highlightthickness=4, padx=10, pady=0)
-bottom_frame.pack(side=tk.BOTTOM, fill=tk.X)
-button_exit = tk.Button(bottom_frame, text="Exit Program", command=root.quit)
-button_exit.pack(side=tk.LEFT, pady=5, padx=5)
-button_save = tk.Button(bottom_frame, text="Save Responses", command=save_data)  ###############
-button_save.pack(side=tk.RIGHT, pady=5, padx=20)
-button_verify = tk.Button(bottom_frame, text="Verify Responses", command=save_data)  ###############
-button_verify.pack(side=tk.RIGHT, pady=5, padx=20)
 
 #
 # Title of questionnaire
@@ -117,12 +110,12 @@ label_welfare = tk.Label(welfare_frame, text="Ижтимоий фаровонл�
 label_welfare.grid(row=0, column=0, columnspan=3, padx=10, pady=10)
 label_welfare.config(font=("helvetica", 12), fg="green")
 
-# Question missed
-label_missed_row = 1
-tex_missed = "Мамлакатдаги умумий вазиятдан (ҳолатдан) қониқиш даражангизни 7 баллик шкалада баҳоланг."
-options_missed = [1, 2, 3, 4, 5, 6, 7]
-question_missed = radio_button_question(welfare_frame, label_missed_row,
-                                        options_missed, tex_missed)
+# Question 7_0
+label_7_0_row = 1
+tex_7_0 = "7.0. Мамлакатдаги умумий вазиятдан (ҳолатдан) қониқиш даражангизни 7 баллик шкалада баҳоланг."
+options_7_0 = [1, 2, 3, 4, 5, 6, 7]
+question_7_0 = radio_button_question(welfare_frame, label_7_0_row,
+                                        options_7_0, tex_7_0)
 
 # Question 7
 label_7_row = 9
@@ -185,7 +178,7 @@ options_15 = [
     "Халқ билан очиқ мулоқотнинг кучайиши",
     "Ҳеч бирини"
     ]
-results_15 = checkbox_question(welfare_frame, label_15_row, options=options_15,
+question_15 = checkbox_question(welfare_frame, label_15_row, options=options_15,
                                 text=text_15, has_other=True)
 
 #
@@ -209,7 +202,7 @@ question_16 = radio_button_question(prezident_frame, label_16_row,
 label_17_row = 6
 text_17 = "17. Илтимос, сиз фикрига қулоқ соладиган, ҳурмат қиладиган сиёсатчилар, жамоат арбобларининг исмларини айтинг"
 num_options_17 = 5
-results_17 = inputting_questions(prezident_frame, label_17_row, num_options_17, text_17, True)
+question_17 = inputting_questions(prezident_frame, label_17_row, num_options_17, text_17, True)
 
 # table for Questions 18-25
 table_frame = tk.LabelFrame(prezident_frame, borderwidth=5, highlightthickness=0, padx=10, pady=10)
@@ -310,7 +303,7 @@ options_29 = [
     "19. Ҳеч қандай ютуғи йўқ",
     "20. Жавоб беришга қийналаман"
     ]
-results_29 = checkbox_question(prezident_frame, label_29_row, options_29,
+question_29 = checkbox_question(prezident_frame, label_29_row, options_29,
                                text_29, True)
 
 # Question 30
@@ -329,7 +322,7 @@ options_30 = [
     "10. Ҳеч қандай камчилиги йўқ",
     "11. Жавоб беришга қийналаман"
     ]
-results_30 = checkbox_question(prezident_frame, label_30_row, options_30,
+question_30 = checkbox_question(prezident_frame, label_30_row, options_30,
                                text_30, True)
 
 # Question 31
@@ -343,7 +336,7 @@ question_31 = radio_button_question(
 label_32_row = 79
 text_32 = "32. Сизнингча, Ўзбекистон Республикаси Президенти Шавкат Мирзиёев биринчи навбатда қандай вазифаларни ҳал этиши керак?"
 num_options_32 = 3
-results_32 = inputting_questions(prezident_frame, label_32_row, num_options_32, text_32, True)
+question_32 = inputting_questions(prezident_frame, label_32_row, num_options_32, text_32, True)
 
 # Question 33
 label_33_row = 84
@@ -447,7 +440,7 @@ question_43 = radio_button_question(parliament_frame, label_43_row, options_43, 
 label_44_row = 22
 text_44 = "44. Нега айнан шу партияга овоз берган бўлардингиз?"
 num_options_44 = 2
-results_44 = inputting_questions(parliament_frame, label_44_row, 2, text_44, True)
+question_44 = inputting_questions(parliament_frame, label_44_row, 2, text_44, True)
 
 # Question 45
 label_45_row = 26
@@ -568,7 +561,7 @@ options_51 = [
     "7. Жавоб беришга қийналаман"
 ]
 
-results_51 = checkbox_question(ict_frame, label_51_row, options=options_51,
+question_51 = checkbox_question(ict_frame, label_51_row, options=options_51,
                                text=text_51, has_other=True)
 
 # Question 52
@@ -611,7 +604,7 @@ options_53 = [
     "17. Муаммо йўқ",
     "18. Жавоб беришга қийналаман",
 ]
-results_53 = checkbox_question(ict_frame, label_53_row, options=options_53,
+question_53 = checkbox_question(ict_frame, label_53_row, options=options_53,
                                text=text_53, has_other=True)
 
 #
@@ -654,7 +647,7 @@ question_55 = radio_button_question(financials_frame, label_55_row,
 
 # Question 56
 label_56_row = 13
-text_56 = "56. Қайси соҳада ишлайсиз? (битта жавобни ўқинг)"
+text_56 = "56. Қайси соҳада ишлайсиз?"
 options_56 = [
     "1. Саноат соҳаси ",
     "2. Қишлоқ хўжалиги",
@@ -672,8 +665,7 @@ options_56 = [
     "14. Оммавий ахборот воситалари",
     "15. Жавоб беришни рад этди",
 ]
-results_56 = checkbox_question(financials_frame, label_56_row, options=options_56,
-                               text=text_56, has_other=True)
+question_56 = radio_button_question(financials_frame, label_56_row, options_56, text_56, True)
 
 # Question 57
 label_57_row = 31
@@ -699,6 +691,82 @@ question_58 = [tk.Entry(financials_frame, validate="key"),
 for idx, entry in enumerate(question_58):
     entry.configure(validatecommand=(entry.register(is_digit), '%P', '%d'))
     entry.grid(row=label_58_row+idx+1, column=0, columnspan=3, padx=10, pady=10)
+
+
+question_widgets = [
+    question_0,
+    question_1,
+    question_2,
+    question_3,
+    question_4,
+    question_5,
+    question_6,
+    question_7_0,
+    question_7,
+    question_8,
+    question_9,
+    question_10,
+    question_11,
+    question_12,
+    question_13,
+    question_14,
+    question_15,
+    question_16,
+    question_17,
+    question_18,
+    question_19,
+    question_20,
+    question_21,
+    question_22,
+    question_23,
+    question_24,
+    question_25,
+    question_26,
+    question_27,
+    question_28,
+    question_29,
+    question_30,
+    question_31,
+    question_32,
+    question_33,
+    question_34,
+    question_35,
+    question_36,
+    question_37,
+    question_38,
+    question_39,
+    question_40,
+    question_41,
+    question_42,
+    question_43,
+    question_44,
+    question_45,
+    question_46,
+    question_47,
+    question_48,
+    question_49,
+    question_50,
+    question_51,
+    question_52,
+    question_53,
+    question_54,
+    question_55,
+    question_56,
+    question_57,
+    question_58,
+    ]
+
+
+# button at the bottom
+bottom_frame = tk.LabelFrame(root, borderwidth=4, highlightthickness=4, padx=10, pady=0)
+bottom_frame.pack(side=tk.BOTTOM, fill=tk.X)
+button_exit = tk.Button(bottom_frame, text="Exit Program", command=root.quit)
+button_exit.pack(side=tk.LEFT, pady=5, padx=5)
+button_save = tk.Button(bottom_frame, text="Save Responses", 
+                        command=lambda: save_data(question_widgets))  ###############
+button_save.pack(side=tk.RIGHT, pady=5, padx=20)
+# button_verify = tk.Button(bottom_frame, text="Verify Responses", command=save_data)  ###############
+# button_verify.pack(side=tk.RIGHT, pady=5, padx=20)
 
 util.main()
 controller.main()
