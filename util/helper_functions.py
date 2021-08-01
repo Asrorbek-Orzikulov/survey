@@ -25,7 +25,7 @@ def is_properly_filled(input_widgets):
          len(mahalla_id.get()) != 2,
          len(survey_id.get()) != 2)
     ):
-        util.log('error', f"ID рақамларни текширинг.")
+        util.log('error', "ID рақамларни текширинг.")
         return False
 
     for question_num, (element, state) in enumerate(input_widgets[:-1]):
@@ -33,11 +33,11 @@ def is_properly_filled(input_widgets):
             if element.get() == "":
                 util.log('error', f"{question_num} саволда жавобни киритинг.")
                 return False
-        if isinstance(element, tk.IntVar):
+        elif isinstance(element, tk.IntVar):
             if element.get() == 0:
                 util.log('error', f"{question_num} саволда жавобни танланг.")
                 return False
-        if isinstance(element, list):
+        elif isinstance(element, list):
             answers = []
             if question_num in util.CHECKBOXES:
                 for widget in element[:-1]:
@@ -110,21 +110,42 @@ def clear_data(input_widgets):
             raise ValueError(str(widgets.get()) + str(type(widgets)))
 
 
+def get_info(input_widgets, column_names, input_info):
+    """
+    Get input information from `input_widgets` and generate
+    column names for an Excel file.
+
+    """
+    for question_num, (widgets, state) in enumerate(input_widgets):
+        if isinstance(widgets, list):
+            if len(widgets) > 1:
+                for option_num, widget in enumerate(widgets):
+                    input_info.append(widget.get())
+                    column_name = "Q_" + str(question_num) + "_" + str(option_num + 1)
+                    column_names.append(column_name)
+    
+            elif len(widgets) == 1:
+                column_name = "Q_" + str(question_num)
+                column_names.append(column_name)
+        else:
+            input_info.append(widgets.get())
+            column_name = "Q_" + str(question_num)
+            column_names.append(column_name)
+
+    
 def save_data(input_widgets):
+    """
+    Save data in `input_widgets` to an Excel file.
+
+    """
     if not is_properly_filled(input_widgets):
         return
 
+    column_names = []
     input_info = []
-    for widgets, state in input_widgets:
-        if isinstance(widgets, list):
-            for widget in widgets:
-                input_info.append(widget.get())
-        else:
-            input_info.append(widgets.get())
-
+    get_info(input_widgets, column_names, input_info)
     if not os.path.isdir("Database"):
         os.mkdir("Database")
-
     try:
         os.chdir("Database")
         start_str = ""
@@ -142,10 +163,11 @@ def save_data(input_widgets):
 
         with xlsxwriter.Workbook(f"{name}.xlsx") as workbook:
             worksheet = workbook.add_worksheet()
-            worksheet.write_row(0, 0, util.COLUMN_NAMES)
+            worksheet.write_row(0, 0, column_names)
             worksheet.write_row(1, 0, input_info)
 
         os.chdir("..")
+        clear_data(input_widgets)
     except Exception as error:
         util.log('error', str(error))
 
