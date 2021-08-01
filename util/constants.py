@@ -231,3 +231,9 @@ COLUMN_NAMES = [
     'Q_58_1',
     'Q_58_2'
     ]
+
+CHECKBOXES = {16, 30, 31, 47, 52, 54}
+
+ENTRY_PLUS_CHECKBOXES = {18, 33, 45}
+
+RADIO_PLUS_OTHERS = {44, 46, 51, 53, 57}

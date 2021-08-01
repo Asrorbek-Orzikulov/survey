@@ -25,15 +25,63 @@ def is_properly_filled(input_widgets):
          len(mahalla_id.get()) != 2,
          len(survey_id.get()) != 2)
     ):
+        util.log('error', f"ID рақамларни текширинг.")
         return False
 
-    # early stopping conditions
-    if any(
-        input_widgets[2][0].get() == 2,
-        input_widgets[4][0].get() == 3,
-        int(input_widgets[6][0].get()) < 18
-    ):
-        return True
+    for question_num, (element, state) in enumerate(input_widgets[:-1]):
+        if isinstance(element, tk.Entry):
+            if element.get() == "":
+                util.log('error', f"{question_num} саволда жавобни киритинг.")
+                return False
+        if isinstance(element, tk.IntVar):
+            if element.get() == 0:
+                util.log('error', f"{question_num} саволда жавобни танланг.")
+                return False
+        if isinstance(element, list):
+            answers = []
+            if question_num in util.CHECKBOXES:
+                for widget in element[:-1]:
+                    not_checked = widget.get() == 0
+                    answers.append(not_checked)
+                is_empty = element[-1].get() == ""
+                answers.append(is_empty)
+                if all(answers):
+                    util.log('error', f"{question_num} саволда камида битта жавобни танланг.")
+                    return False
+            elif question_num in util.ENTRY_PLUS_CHECKBOXES:
+                checkbox_checked = element[-1].get() == 1
+                if checkbox_checked:
+                    empty_entries = []
+                    for entry in element[:-1]:
+                        is_empty = entry.get() == ""
+                        empty_entries.append(is_empty)
+                    if not all(empty_entries):
+                        util.log('error', f"{question_num} саволда очиқ жавоблар бўш қолсин.")
+                        return False
+                else:
+                    entry = element[0]
+                    if entry.get() == "":
+                        util.log('error', f"{question_num} саволда камида битта жавобни киритинг.")
+                        return False
+            elif question_num in util.RADIO_PLUS_OTHERS:
+                radio_button, entry_other = element
+                radio_not_selected = radio_button.get() == 0
+                entry_empty = entry_other.get() == ""
+                if radio_not_selected and entry_empty:
+                    util.log('error', f"{question_num} саволда битта жавобни танланг.")
+                    return False
+                if (not radio_not_selected) and (not entry_empty):
+                    util.log('error', f"{question_num} саволда очиқ жавоб бўш қолсин.")
+                    return False
+    return True
+
+    # # early stopping conditions
+    # if any(
+    #     input_widgets[2][0].get() == 2,
+    #     input_widgets[4][0].get() == 3,
+    #     int(input_widgets[6][0].get()) < 18
+    # ):
+    #     return True
 
 
 
