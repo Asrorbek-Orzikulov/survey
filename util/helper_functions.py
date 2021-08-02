@@ -2,6 +2,7 @@ import tkinter as tk
 import util
 import os
 import xlsxwriter
+from tkinter import messagebox
 
 
 def is_digit(input_string, action_type):
@@ -18,11 +19,11 @@ def is_cyrillic(input_string, action_type):
     return True
 
 
-def create_messagebox(text, is_error):
+def create_messagebox(text, is_error=True):
     if is_error:
-        tk.messagebox.showerror(title="Saving Request", message=text)
+        messagebox.showerror(title="Saving Request", message=text)
     else:
-        tk.messagebox.showinfo(title="Saving Request", message=text)
+        messagebox.showinfo(title="Saving Request", message=text)
 
 def is_properly_filled(input_widgets):
     interviewer_id, mahalla_id, survey_id = input_widgets[0][0]
@@ -31,8 +32,8 @@ def is_properly_filled(input_widgets):
          len(mahalla_id.get()) != 2,
          len(survey_id.get()) != 2)
     ):
-        util.log('error', "ID рақамларни текширинг.")
-        
+        create_messagebox("ID рақамларни текширинг.")
+        # util.log('error', "ID рақамларни текширинг.")
         return False
 
     for question_num, (element, state) in enumerate(input_widgets[:-1]):
@@ -67,11 +68,13 @@ def is_properly_filled(input_widgets):
         # input verification based on the question type
         if isinstance(element, tk.Entry):
             if element.get() == "":
-                util.log('error', f"{question_num} саволда жавобни киритинг.")
+                create_messagebox(f"{question_num} саволда жавобни киритинг.")
+                # util.log('error', f"{question_num} саволда жавобни киритинг.")
                 return False
         elif isinstance(element, tk.IntVar):
             if element.get() == 0:
-                util.log('error', f"{question_num} саволда жавобни танланг.")
+                create_messagebox(f"{question_num} саволда жавобни танланг.")
+                # util.log('error', f"{question_num} саволда жавобни танланг.")
                 return False
         elif isinstance(element, list):
             answers = []
@@ -82,7 +85,8 @@ def is_properly_filled(input_widgets):
                 is_empty = element[-1].get() == ""
                 answers.append(is_empty)
                 if all(answers):
-                    util.log('error', f"{question_num} саволда камида битта жавобни танланг.")
+                    create_messagebox(f"{question_num} саволда камида битта жавобни танланг.")
+                    # util.log('error', f"{question_num} саволда камида битта жавобни танланг.")
                     return False
             elif question_num in util.ENTRY_PLUS_CHECKBOXES:
                 checkbox_checked = element[-1].get() == 1
@@ -92,22 +96,26 @@ def is_properly_filled(input_widgets):
                         is_empty = entry.get() == ""
                         empty_entries.append(is_empty)
                     if not all(empty_entries):
-                        util.log('error', f"{question_num} саволда очиқ жавоблар бўш қолсин.")
+                        create_messagebox(f"{question_num} саволда очиқ жавоблар бўш қолсин.")
+                        # util.log('error', f"{question_num} саволда очиқ жавоблар бўш қолсин.")
                         return False
                 else:
                     entry = element[0]
                     if entry.get() == "":
-                        util.log('error', f"{question_num} саволда камида битта жавобни киритинг.")
+                        create_messagebox(f"{question_num} саволда камида битта жавобни киритинг.")
+                        # util.log('error', f"{question_num} саволда камида битта жавобни киритинг.")
                         return False
             elif question_num in util.RADIO_PLUS_OTHERS:
                 radio_button, entry_other = element
                 radio_not_selected = radio_button.get() == 0
                 entry_empty = entry_other.get() == ""
                 if radio_not_selected and entry_empty:
-                    util.log('error', f"{question_num} саволда битта жавобни танланг.")
+                    create_messagebox(f"{question_num} саволда битта жавобни танланг.")
+                    # util.log('error', f"{question_num} саволда битта жавобни танланг.")
                     return False
                 if (not radio_not_selected) and (not entry_empty):
-                    util.log('error', f"{question_num} саволда очиқ жавоб бўш қолсин.")
+                    create_messagebox(f"{question_num} саволда очиқ жавоб бўш қолсин.")
+                    # util.log('error', f"{question_num} саволда очиқ жавоб бўш қолсин.")
                     return False
     return True
 
@@ -192,11 +200,13 @@ def save_data(input_widgets):
             worksheet.write_row(0, 0, column_names)
             worksheet.write_row(1, 0, input_info)
 
-        util.log('success', f"Жавобларингиз {name}.xlsx тарзида сақланди.")
+        create_messagebox( f"Жавобларингиз {name}.xlsx тарзида сақланди.", False)
+        # util.log('success', f"Жавобларингиз {name}.xlsx тарзида сақланди.")
         os.chdir("..")
         clear_data(input_widgets)
     except Exception as error:
-        util.log('error', str(error))
+        create_messagebox(str(error))
+        # util.log('error', str(error))
 
 
 def entry_clicked(radio_var, entry):
