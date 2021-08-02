@@ -18,6 +18,12 @@ def is_cyrillic(input_string, action_type):
     return True
 
 
+def create_messagebox(text, is_error):
+    if is_error:
+        tk.messagebox.showerror(title="Saving Request", message=text)
+    else:
+        tk.messagebox.showinfo(title="Saving Request", message=text)
+
 def is_properly_filled(input_widgets):
     interviewer_id, mahalla_id, survey_id = input_widgets[0][0]
     if any(
@@ -26,9 +32,39 @@ def is_properly_filled(input_widgets):
          len(survey_id.get()) != 2)
     ):
         util.log('error', "ID рақамларни текширинг.")
+        
         return False
 
     for question_num, (element, state) in enumerate(input_widgets[:-1]):
+
+        # early stopping conditions
+        if question_num == 2:
+            if element.get() == 2:
+                return True
+        elif question_num == 4:
+            if element.get() == 3:
+                return True
+        elif question_num == 6:
+            age = element.get()
+            if age != "":
+                if int(age) < 18:
+                    return True
+
+        # skipping questions based on previous answers
+        elif question_num in [36, 39]:
+            previous_question = input_widgets[question_num-1][0]
+            if previous_question.get() == 5:
+                continue
+        elif question_num == 45:
+            previous_question = input_widgets[question_num-1][0][0]
+            if previous_question.get() not in range(1, 6):
+                continue
+        elif question_num == 57:
+            previous_question = input_widgets[question_num-1][0]
+            if previous_question.get() not in range(1, 4):
+                continue
+
+        # input verification based on the question type
         if isinstance(element, tk.Entry):
             if element.get() == "":
                 util.log('error', f"{question_num} саволда жавобни киритинг.")
@@ -74,16 +110,6 @@ def is_properly_filled(input_widgets):
                     util.log('error', f"{question_num} саволда очиқ жавоб бўш қолсин.")
                     return False
     return True
-
-    # # early stopping conditions
-    # if any(
-    #     input_widgets[2][0].get() == 2,
-    #     input_widgets[4][0].get() == 3,
-    #     int(input_widgets[6][0].get()) < 18
-    # ):
-    #     return True
-
-
 
 
 def clear_data(input_widgets):
@@ -166,6 +192,7 @@ def save_data(input_widgets):
             worksheet.write_row(0, 0, column_names)
             worksheet.write_row(1, 0, input_info)
 
+        util.log('success', f"Жавобларингиз {name}.xlsx тарзида сақланди.")
         os.chdir("..")
         clear_data(input_widgets)
     except Exception as error:
