@@ -3,6 +3,8 @@ import util
 import os
 import xlsxwriter
 from tkinter import messagebox
+from glob import glob
+import openpyxl
 
 
 def is_digit(input_string, action_type):
@@ -200,13 +202,56 @@ def save_data(input_widgets):
             worksheet.write_row(0, 0, column_names)
             worksheet.write_row(1, 0, input_info)
 
-        create_messagebox( f"Жавобларингиз {name}.xlsx тарзида сақланди.", False)
+        create_messagebox(f"Жавобларингиз {name}.xlsx тарзида сақланди.", False)
         # util.log('success', f"Жавобларингиз {name}.xlsx тарзида сақланди.")
         os.chdir("..")
         clear_data(input_widgets)
     except Exception as error:
         create_messagebox(str(error))
         # util.log('error', str(error))
+
+
+def merge_files():
+    if not os.path.isdir("Database"):
+        create_messagebox("Database папкаси мавжуд эмас.")
+        return
+
+    try:
+        os.chdir("Database")
+        extension = "xlsx"
+        all_filenames = [i for i in glob('*.{}'.format(extension))]
+        if not all_filenames:
+            create_messagebox("Database папкаси бўш.")
+            os.chdir("..")
+            return
+        elif os.path.exists("merged_file.xlsx"):
+            create_messagebox("merged_file.xlsx папкада мавжуд.")
+            os.chdir("..")
+            return
+
+        with xlsxwriter.Workbook("merged_file.xlsx") as workbook_full:
+            worksheet = workbook_full.add_worksheet()
+            current_row = 0
+            for idx, file in enumerate(all_filenames):
+                workbook = openpyxl.load_workbook(file)
+                sheet = workbook.active
+                max_col = sheet.max_column
+                if idx == 0:
+                    start_row = 1
+                else:
+                    start_row = 2
+        
+                for row in sheet.iter_rows(min_row=start_row, max_col=max_col, values_only=True):
+                    worksheet.write_row(current_row, 0, row)
+                    current_row += 1
+        
+                workbook.close()
+
+        create_messagebox("Барча жавоблар бирлаштирилди.", False)
+        os.chdir("..")
+
+    except Exception as error:
+        create_messagebox(str(error))
 
 
 def entry_clicked(radio_var, entry):

@@ -795,12 +795,16 @@ question_widgets = [
 # buttons at the bottom
 bottom_frame = tk.LabelFrame(root, borderwidth=4, highlightthickness=4, padx=10, pady=0)
 bottom_frame.pack(side=tk.BOTTOM, fill=tk.X)
-button_exit = tk.Button(bottom_frame, text="Exit Program", command=root.quit)
-button_exit.pack(side=tk.LEFT, pady=5, padx=5)
-button_save = tk.Button(bottom_frame, text="Save Responses", 
+button_exit = tk.Button(bottom_frame, text="  Exit Program  ", 
+                        command=root.quit, relief=tk.RAISED)
+button_exit.pack(side=tk.LEFT, pady=5, padx=20)
+button_make_onefile = tk.Button(bottom_frame, text="    Merge Files    ",
+                                command=merge_files, relief=tk.RAISED)
+button_make_onefile.pack(side = tk.LEFT, pady=5, padx=20)
+button_save = tk.Button(bottom_frame, text="Save Responses", relief=tk.RAISED,
                         command=lambda: save_data(question_widgets))
 button_save.pack(side=tk.RIGHT, pady=5, padx=20)
-button_clear = tk.Button(bottom_frame, text="Clear Responses",
+button_clear = tk.Button(bottom_frame, text="Clear Responses", relief=tk.RAISED,
                          command=lambda: clear_data(question_widgets))
 button_clear.pack(side=tk.RIGHT, pady=5, padx=20)
 
