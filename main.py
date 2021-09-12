@@ -1,6 +1,6 @@
-﻿import controller
 import tkinter as tk
 from tkinter import ttk
+import controller
 from util.helper_functions import *
 
 #

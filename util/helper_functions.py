@@ -27,6 +27,7 @@ def create_messagebox(text, is_error=True):
     else:
         messagebox.showinfo(title="Saving Request", message=text)
 
+
 def is_properly_filled(input_widgets):
     interviewer_id, mahalla_id, survey_id = input_widgets[0][0]
     if any(
@@ -188,13 +189,13 @@ def save_data(input_widgets):
         for entry in input_widgets[0][0]:
             start_str += entry.get() + "-"
 
-        file_exists = True
         count = 0
+        file_exists = True
         while file_exists:
-            if os.path.isfile(start_str + f"{count}.xlsx"):
+            name = start_str + f"{count}.xlsx"
+            if os.path.isfile(name):
                 count += 1
             else:
-                name = start_str + f"{count}"
                 file_exists = False
 
         with xlsxwriter.Workbook(f"{name}.xlsx") as workbook:
